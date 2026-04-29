@@ -1,0 +1,133 @@
+
+<style>
+  body { margin: 0; }
+  .section { margin: 0 0 2rem; }
+  .section-title { font-size: 18px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 1rem; padding-bottom: 8px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+  .card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; }
+  .card-title { font-size: 14px; font-weight: 500; margin: 0 0 8px; color: var(--color-text-primary); }
+  .card-body { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin: 0; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 2px 10px; border-radius: var(--border-radius-md); margin: 0 0 8px; }
+  .badge-red { background: var(--color-background-danger); color: var(--color-text-danger); }
+  .badge-amber { background: var(--color-background-warning); color: var(--color-text-warning); }
+  .badge-blue { background: var(--color-background-info); color: var(--color-text-info); }
+  .badge-green { background: var(--color-background-success); color: var(--color-text-success); }
+  .company-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; }
+  .company-logo { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); margin: 0 0 10px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .rec-list { list-style: none; margin: 0; padding: 0; }
+  .rec-list li { font-size: 13px; color: var(--color-text-secondary); padding: 5px 0; border-bottom: 0.5px solid var(--color-border-tertiary); line-height: 1.5; }
+  .rec-list li:last-child { border-bottom: none; }
+  .rec-list li::before { content: "›"; margin-right: 6px; color: var(--color-text-tertiary); }
+  .def-card { background: var(--color-background-secondary); border-left: 3px solid; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; padding: 0.9rem 1.1rem; }
+  .def-card.blue { border-color: #378ADD; }
+  .def-card.amber { border-color: #BA7517; }
+  .def-card.coral { border-color: #D85A30; }
+  .def-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 4px; }
+  .def-body { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin: 0; }
+  .hero { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 1.25rem 1.5rem; margin: 0 0 2rem; }
+  .hero-title { font-size: 20px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 6px; }
+  .hero-sub { font-size: 14px; color: var(--color-text-secondary); margin: 0; line-height: 1.6; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .tag { font-size: 12px; background: var(--color-background-primary); border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); padding: 2px 10px; color: var(--color-text-secondary); }
+</style>
+
+<div class="hero">
+  <p class="hero-title">Efectos de largas jornadas sin pausas activas en desarrolladores de software</p>
+  <p class="hero-sub">Investigación sobre riesgos físicos, mentales, productivos y de fatiga digital — y qué recomiendan las grandes empresas tecnológicas.</p>
+  <div class="tag-row">
+    <span class="tag">Salud ocupacional</span>
+    <span class="tag">Ergonomía</span>
+    <span class="tag">Bienestar laboral</span>
+    <span class="tag">Productividad</span>
+  </div>
+</div>
+
+<div class="section">
+  <p class="section-title">Análisis de riesgos</p>
+  <div class="grid-2">
+    <div class="card">
+      <span class="badge badge-red">Físicos</span>
+      <p class="card-title">Impacto en el cuerpo</p>
+      <p class="card-body">Dolor de espalda, cuello y hombros por postura estática prolongada. Síndrome del túnel carpiano en muñecas y manos debido a movimientos repetitivos del teclado y ratón. Fatiga visual, ojos secos e irritados. Dolores de cabeza frecuentes. Riesgo cardiovascular por sedentarismo sostenido.</p>
+    </div>
+    <div class="card">
+      <span class="badge badge-amber">Mentales</span>
+      <p class="card-title">Impacto en la mente</p>
+      <p class="card-body">Estrés por hiperconectividad y presión de respuesta inmediata. Ansiedad tecnológica ("tecnoestrés"). Dificultad para desconectarse psicológicamente del trabajo. Síndrome de burnout por agotamiento acumulado. Disminución de la motivación y sensación de agotamiento constante.</p>
+    </div>
+    <div class="card">
+      <span class="badge badge-blue">Productividad</span>
+      <p class="card-title">Impacto en el rendimiento</p>
+      <p class="card-body">Reducción de la concentración y creatividad. Mayor tasa de errores en el código por fatiga cognitiva. Menor capacidad de resolución de problemas complejos. Aumento del ausentismo laboral por enfermedad. Paradójicamente, trabajar más horas sin pausas produce menos output de calidad.</p>
+    </div>
+    <div class="card">
+      <span class="badge badge-amber">Fatiga digital</span>
+      <p class="card-title">Agotamiento tecnológico</p>
+      <p class="card-body">Sobrecarga informativa por exceso de notificaciones y mensajes. "Zoom fatigue": agotamiento tras videollamadas continuas. Fragmentación de la atención por interrupciones constantes. Dificultad para separar vida personal y laboral en entornos digitales. Sensación de disponibilidad permanente obligatoria.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <p class="section-title">Tres condiciones clave que debe conocer todo desarrollador</p>
+  <div style="display: flex; flex-direction: column; gap: 12px;">
+    <div class="def-card blue">
+      <p class="def-title">Fatiga digital</p>
+      <p class="def-body">Estado de agotamiento mental y físico generado por la sobreexposición a dispositivos digitales y la hiperconectividad. No es una categoría clínica cerrada, sino un desgaste acumulativo que aparece cuando el trabajo exige atención sostenida, reacción continua y conectividad casi permanente sin suficientes pausas. Se manifiesta con estrés, ansiedad, disminución de motivación, insomnio y dificultad para desconectarse del trabajo fuera del horario laboral. La Universidad de Nottingham la describió como "el lado oscuro del trabajo digital".</p>
+    </div>
+    <div class="def-card amber">
+      <p class="def-title">Síndrome Visual Informático (SVI)</p>
+      <p class="def-body">Conjunto de problemas oculares y visuales causados por la exposición prolongada a pantallas digitales. Al fijar los ojos en una pantalla, la frecuencia del parpadeo se reduce hasta la mitad, lo que genera sequedad, irritación y fatiga visual. Los síntomas incluyen: visión borrosa, ojos secos o ardorosos, dolor de cabeza en zona frontal, fotofobia, diplopía (visión doble temporal) y mareos. Puede aparecer desde las 3 horas de uso continuo. Aunque suele ser temporal, la exposición sostenida puede agravar alteraciones visuales preexistentes y contribuir a problemas de visión a largo plazo.</p>
+    </div>
+    <div class="def-card coral">
+      <p class="def-title">Lesiones por Esfuerzo Repetitivo (LER)</p>
+      <p class="def-body">Grupo de afecciones en músculos, tendones y nervios causadas por movimientos repetitivos o posturas sostenidas. En programadores, las más frecuentes son: el síndrome del túnel carpiano (compresión del nervio mediano en la muñeca, con hormigueo, entumecimiento y debilidad en la mano), tendinitis de muñeca, epicondilitis y tenosinovitis. Los programadores son especialmente vulnerables por la escritura de código durante largas horas con movimientos idénticos del teclado y ratón. En casos severos requieren tratamiento fisioterapéutico o incluso cirugía.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <p class="section-title">¿Qué recomiendan Google, Microsoft y Apple?</p>
+  <div class="grid-3">
+    <div class="company-card">
+      <p class="company-logo">Google</p>
+      <ul class="rec-list">
+        <li>Recordatorios de bienestar en Google Calendar para tomar pausas, hidratarse y hacer mindfulness durante el día</li>
+        <li>Iniciativa "No-Tech Tuesdays": desconexión de pantallas las noches del martes — el 97% de participantes reportó mejoras en bienestar y productividad</li>
+        <li>"Mindful Mornings": 30 minutos diarios sin trabajo antes de iniciar la jornada</li>
+        <li>Caminatas como "commute mental" antes y después de trabajar</li>
+        <li>Gimnasios, yoga y meditación mindfulness en sus instalaciones para mantener el foco</li>
+        <li>Política de seguridad psicológica: bienestar como base de la innovación</li>
+      </ul>
+    </div>
+    <div class="company-card">
+      <p class="company-logo">Microsoft</p>
+      <ul class="rec-list">
+        <li>Microsoft Viva Insights: plataforma que programa automáticamente pausas, tiempo de descanso y meditación durante la jornada</li>
+        <li>Reuniones con inicio 5 minutos después de la hora para dar tiempo de levantarse y moverse entre ellas</li>
+        <li>Silencio de notificaciones de Teams y Outlook fuera del horario laboral</li>
+        <li>Recordatorios para realizar actividad física y contrarrestar el sedentarismo</li>
+        <li>Terapia 24/7 bajo demanda y webinars mensuales de salud mental a través de "Microsoft Cares"</li>
+        <li>El Work Trend Index de Microsoft indica que pequeños descansos de hasta 10 minutos permiten que el cerebro "se reinicie" y reducen la acumulación de estrés</li>
+      </ul>
+    </div>
+    <div class="company-card">
+      <p class="company-logo">Apple</p>
+      <ul class="rec-list">
+        <li>Apple Watch integra recordatorios de actividad y alertas para ponerse de pie cada hora si se ha permanecido sentado</li>
+        <li>Función "Tiempo en pantalla" para monitorear y limitar el uso de dispositivos</li>
+        <li>Investigación activa en bienestar de trabajadores como parte de su estrategia de retención de talento</li>
+        <li>Programas de pausas activas implementados en sus oficinas con mejoras reportadas en salud y desempeño del equipo</li>
+        <li>Fomento del equilibrio vida-trabajo como parte de su cultura corporativa</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <p class="section-title">Regla práctica recomendada: 20-20-20</p>
+  <div class="card" style="background: var(--color-background-secondary);">
+    <p class="card-body" style="font-size: 14px;">Cada <strong style="color: var(--color-text-primary)">20 minutos</strong>, mira un objeto a <strong style="color: var(--color-text-primary)">20 pies</strong> (~6 metros) de distancia durante <strong style="color: var(--color-text-primary)">20 segundos</strong>. Esta técnica reduce la fatiga visual y permite que los músculos oculares descansen. Complementar con levantarse y estirarse cada hora, y realizar pausas activas de 5 a 10 minutos de movimiento físico para contrarrestar los efectos del sedentarismo.</p>
+  </div>
+</div>

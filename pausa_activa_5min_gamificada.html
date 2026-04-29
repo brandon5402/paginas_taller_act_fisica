@@ -1,0 +1,426 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+
+.tab-row{display:flex;gap:6px;margin:0 0 1.5rem;background:var(--color-background-secondary);padding:6px;border-radius:var(--border-radius-lg);}
+.tab-btn{flex:1;padding:8px 4px;font-size:13px;font-weight:500;border:none;border-radius:var(--border-radius-md);cursor:pointer;transition:background .15s,color .15s;background:transparent;color:var(--color-text-secondary);}
+.tab-btn.active{background:var(--color-background-primary);color:var(--color-text-primary);border:0.5px solid var(--color-border-tertiary);}
+
+.panel{display:none;}
+.panel.active{display:block;}
+
+/* ── PAUSA GUIADA ── */
+.step-header{display:flex;align-items:center;gap:12px;margin:0 0 1.5rem;}
+.step-counter{font-size:13px;color:var(--color-text-secondary);}
+.step-progress{flex:1;height:6px;background:var(--color-border-tertiary);border-radius:4px;overflow:hidden;}
+.step-progress-fill{height:100%;border-radius:4px;background:#534AB7;transition:width .4s;}
+.step-pts{font-size:13px;font-weight:500;color:#3C3489;background:#EEEDFE;padding:3px 10px;border-radius:20px;}
+
+.step-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;margin:0 0 1rem;text-align:center;}
+.step-zone{display:inline-block;font-size:11px;font-weight:500;padding:2px 10px;border-radius:20px;margin:0 0 12px;}
+.zone-neck{background:#EEEDFE;color:#3C3489;}
+.zone-wrist{background:#FAEEDA;color:#633806;}
+.zone-back{background:#E1F5EE;color:#085041;}
+.zone-eyes{background:#E6F1FB;color:#0C447C;}
+.zone-breath{background:#FAECE7;color:#712B13;}
+
+.step-name{font-size:20px;font-weight:500;color:var(--color-text-primary);margin:0 0 6px;}
+.step-desc{font-size:14px;color:var(--color-text-secondary);line-height:1.6;margin:0 0 1.5rem;}
+
+.timer-ring{width:96px;height:96px;margin:0 auto 1.5rem;}
+.timer-ring svg{width:96px;height:96px;}
+.timer-text{font-size:22px;font-weight:500;fill:var(--color-text-primary);}
+.timer-sub{font-size:11px;fill:var(--color-text-secondary);}
+.ring-bg{fill:none;stroke:var(--color-border-tertiary);stroke-width:6;}
+.ring-fg{fill:none;stroke:#534AB7;stroke-width:6;stroke-linecap:round;stroke-dasharray:251;stroke-dashoffset:0;transition:stroke-dashoffset .5s linear;transform:rotate(-90deg);transform-origin:48px 48px;}
+
+.btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.btn-main{padding:10px 28px;font-size:14px;font-weight:500;border-radius:var(--border-radius-md);border:none;cursor:pointer;background:#534AB7;color:#EEEDFE;}
+.btn-skip{padding:10px 20px;font-size:14px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-secondary);cursor:pointer;}
+.btn-main:active{transform:scale(.97);}
+.btn-skip:active{transform:scale(.97);}
+
+.xp-bar-wrap{margin:1rem 0;display:flex;align-items:center;gap:10px;}
+.xp-label{font-size:12px;color:var(--color-text-secondary);white-space:nowrap;}
+.xp-bar{flex:1;height:8px;background:var(--color-border-tertiary);border-radius:4px;overflow:hidden;}
+.xp-fill{height:100%;background:#534AB7;border-radius:4px;transition:width .5s;}
+
+.step-list{display:flex;gap:6px;justify-content:center;margin:0 0 1.5rem;flex-wrap:wrap;}
+.step-pip{width:28px;height:28px;border-radius:50%;font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;border:0.5px solid var(--color-border-secondary);color:var(--color-text-tertiary);background:var(--color-background-secondary);}
+.step-pip.done{background:#534AB7;color:#EEEDFE;border-color:#534AB7;}
+.step-pip.current{background:#EEEDFE;color:#3C3489;border:1.5px solid #534AB7;}
+
+/* ── MODO ARCADE ── */
+.arcade-header{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin:0 0 1rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.arcade-stat{text-align:center;}
+.arcade-stat-val{font-size:22px;font-weight:500;color:var(--color-text-primary);}
+.arcade-stat-label{font-size:11px;color:var(--color-text-secondary);}
+
+.challenge-card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin:0 0 10px;display:flex;align-items:center;gap:14px;background:var(--color-background-primary);cursor:pointer;transition:border-color .15s;}
+.challenge-card:hover{border-color:var(--color-border-secondary);}
+.challenge-card.locked{opacity:.45;cursor:not-allowed;}
+.challenge-card.done{border-left:3px solid #1D9E75;}
+.challenge-card.done{border-radius:0 var(--border-radius-lg) var(--border-radius-lg) 0;}
+.ch-icon{width:40px;height:40px;border-radius:var(--border-radius-md);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.ch-title{font-size:14px;font-weight:500;color:var(--color-text-primary);}
+.ch-desc{font-size:12px;color:var(--color-text-secondary);margin-top:2px;}
+.ch-pts{font-size:13px;font-weight:500;color:#085041;background:#E1F5EE;padding:3px 10px;border-radius:20px;white-space:nowrap;margin-left:auto;flex-shrink:0;}
+.ch-pts.done-pts{background:#E1F5EE;color:#085041;}
+.ch-pts.locked-pts{background:var(--color-background-secondary);color:var(--color-text-tertiary);}
+
+.combo-banner{background:#EEEDFE;border:0.5px solid #AFA9EC;border-radius:var(--border-radius-md);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;margin:0 0 1rem;flex-wrap:wrap;gap:8px;}
+.combo-text{font-size:13px;color:#3C3489;}
+.combo-val{font-size:18px;font-weight:500;color:#534AB7;}
+
+/* ── RANKING ── */
+.rank-header{display:flex;gap:10px;margin:0 0 1rem;flex-wrap:wrap;}
+.rank-badge{flex:1;min-width:120px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.75rem 1rem;text-align:center;}
+.rank-badge-val{font-size:18px;font-weight:500;color:var(--color-text-primary);}
+.rank-badge-label{font-size:11px;color:var(--color-text-secondary);margin-top:2px;}
+
+.rank-row{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin:0 0 8px;}
+.rank-row.you{border:2px solid #534AB7;}
+.rank-pos{font-size:15px;font-weight:500;color:var(--color-text-secondary);width:24px;text-align:center;flex-shrink:0;}
+.rank-pos.gold{color:#BA7517;}
+.rank-pos.silver{color:#888780;}
+.rank-pos.bronze{color:#993C1D;}
+.rank-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;flex-shrink:0;}
+.rank-name{flex:1;font-size:14px;color:var(--color-text-primary);}
+.rank-sub{font-size:12px;color:var(--color-text-secondary);}
+.rank-pts-col{text-align:right;}
+.rank-pts-val{font-size:15px;font-weight:500;color:var(--color-text-primary);}
+.rank-streak{font-size:11px;color:var(--color-text-secondary);}
+
+.week-row{display:flex;gap:4px;margin:1rem 0 .25rem;}
+.week-day{flex:1;text-align:center;}
+.week-day-label{font-size:11px;color:var(--color-text-tertiary);margin-bottom:4px;}
+.week-bar{height:48px;background:var(--color-background-secondary);border-radius:4px;position:relative;overflow:hidden;}
+.week-bar-fill{position:absolute;bottom:0;left:0;right:0;background:#534AB7;border-radius:4px;transition:height .4s;}
+.week-day-pts{font-size:11px;color:var(--color-text-secondary);margin-top:4px;text-align:center;}
+
+.award-row{display:flex;gap:8px;margin:1rem 0 0;flex-wrap:wrap;}
+.award{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:8px 12px;font-size:12px;color:var(--color-text-secondary);display:flex;align-items:center;gap:6px;}
+.award.unlocked{background:#FAEEDA;border-color:#EF9F27;color:#633806;}
+
+.you-tag{font-size:11px;background:#EEEDFE;color:#3C3489;padding:1px 8px;border-radius:20px;margin-left:6px;}
+</style>
+
+<h2 class="sr-only">Pausa activa interactiva de 5 minutos para programadores, con modo guiado, modo arcade y ranking de equipo.</h2>
+
+<div class="tab-row">
+  <button class="tab-btn active" onclick="switchTab('guided')">Pausa guiada</button>
+  <button class="tab-btn" onclick="switchTab('arcade')">Modo arcade</button>
+  <button class="tab-btn" onclick="switchTab('ranking')">Ranking del equipo</button>
+</div>
+
+<!-- ── PANEL 1: PAUSA GUIADA ── -->
+<div id="panel-guided" class="panel active">
+  <div class="step-header">
+    <span class="step-counter" id="step-label">Ejercicio 1 de 5</span>
+    <div class="step-progress"><div class="step-progress-fill" id="step-bar" style="width:20%"></div></div>
+    <span class="step-pts" id="pts-display">+0 XP</span>
+  </div>
+
+  <div class="step-list" id="pip-row">
+    <div class="step-pip current" id="pip-0">1</div>
+    <div class="step-pip" id="pip-1">2</div>
+    <div class="step-pip" id="pip-2">3</div>
+    <div class="step-pip" id="pip-3">4</div>
+    <div class="step-pip" id="pip-4">5</div>
+  </div>
+
+  <div class="step-card" id="step-card">
+    <span class="step-zone zone-neck" id="step-zone">Cuello</span>
+    <div class="timer-ring">
+      <svg viewBox="0 0 96 96">
+        <circle class="ring-bg" cx="48" cy="48" r="40"/>
+        <circle class="ring-fg" id="ring-fg" cx="48" cy="48" r="40"/>
+        <text class="timer-text" x="48" y="50" text-anchor="middle" dominant-baseline="central" id="timer-num">45</text>
+        <text class="timer-sub" x="48" y="64" text-anchor="middle" dominant-baseline="central">seg</text>
+      </svg>
+    </div>
+    <p class="step-name" id="step-name">Rotación de cuello</p>
+    <p class="step-desc" id="step-desc">Gira lentamente la cabeza de izquierda a derecha, como si dijeras "no". Mantén los hombros bajos y relajados. 5 rotaciones lentas en cada dirección.</p>
+    <div class="btn-row">
+      <button class="btn-main" id="btn-action" onclick="handleAction()">Iniciar ejercicio</button>
+      <button class="btn-skip" onclick="skipStep()">Saltar</button>
+    </div>
+  </div>
+
+  <div class="xp-bar-wrap">
+    <span class="xp-label">XP de sesión</span>
+    <div class="xp-bar"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div>
+    <span class="xp-label" id="xp-total">0 / 250</span>
+  </div>
+
+  <div id="finish-banner" style="display:none;background:#E1F5EE;border:0.5px solid #5DCAA5;border-radius:var(--border-radius-lg);padding:1.25rem;text-align:center;margin-top:1rem;">
+    <p style="font-size:20px;font-weight:500;color:#085041;margin:0 0 6px;">Pausa completada</p>
+    <p style="font-size:14px;color:#0F6E56;margin:0 0 1rem;">Ganaste 250 XP · Racha activa: 3 dias seguidos</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn-main" onclick="resetGuided()">Repetir pausa</button>
+      <button class="btn-skip" onclick="switchTab('ranking')">Ver ranking</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── PANEL 2: MODO ARCADE ── -->
+<div id="panel-arcade" class="panel">
+  <div class="arcade-header">
+    <div class="arcade-stat"><div class="arcade-stat-val" id="arc-pts">320</div><div class="arcade-stat-label">puntos hoy</div></div>
+    <div class="arcade-stat"><div class="arcade-stat-val" id="arc-streak">3</div><div class="arcade-stat-label">dias de racha</div></div>
+    <div class="arcade-stat"><div class="arcade-stat-val" id="arc-level">Nv. 4</div><div class="arcade-stat-label">dev saludable</div></div>
+    <div class="arcade-stat"><div class="arcade-stat-val" id="arc-combo">x1</div><div class="arcade-stat-label">combo activo</div></div>
+  </div>
+
+  <div class="combo-banner">
+    <span class="combo-text">Completa 3 retos seguidos para activar combo x2</span>
+    <span class="combo-val" id="combo-counter">1 / 3</span>
+  </div>
+
+  <div id="challenges-list"></div>
+
+  <div class="award-row" id="awards-row">
+    <div class="award" id="aw-first">Primer reto</div>
+    <div class="award" id="aw-all">Racha de 5</div>
+    <div class="award" id="aw-perfect">Pausa perfecta</div>
+    <div class="award" id="aw-combo">Combo x2</div>
+  </div>
+</div>
+
+<!-- ── PANEL 3: RANKING ── -->
+<div id="panel-ranking" class="panel">
+  <div class="rank-header">
+    <div class="rank-badge"><div class="rank-badge-val">Team Dev</div><div class="rank-badge-label">tu equipo</div></div>
+    <div class="rank-badge"><div class="rank-badge-val" id="rk-week-pts">1.840</div><div class="rank-badge-label">XP del equipo esta semana</div></div>
+    <div class="rank-badge"><div class="rank-badge-val">#2</div><div class="rank-badge-label">posicion en empresa</div></div>
+  </div>
+
+  <div id="rank-list"></div>
+
+  <p style="font-size:13px;font-weight:500;color:var(--color-text-secondary);margin:1.25rem 0 .5rem;">Actividad del equipo esta semana</p>
+  <div class="week-row" id="week-chart"></div>
+
+  <p style="font-size:13px;font-weight:500;color:var(--color-text-secondary);margin:1.25rem 0 .5rem;">Logros desbloqueados esta semana</p>
+  <div class="award-row">
+    <div class="award unlocked">Semana sin saltar</div>
+    <div class="award unlocked">3 dias seguidos</div>
+    <div class="award">7 dias seguidos</div>
+    <div class="award">Equipo del mes</div>
+  </div>
+
+  <div style="margin:1rem 0 0;text-align:center;">
+    <button class="btn-main" onclick="switchTab('guided');resetGuided()">Sumar XP ahora</button>
+  </div>
+</div>
+
+<script>
+const STEPS=[
+  {zone:"Cuello",zoneClass:"zone-neck",name:"Rotación de cuello",desc:"Gira lentamente la cabeza de izquierda a derecha, como si dijeras \"no\". Mantén los hombros bajos y relajados. 5 rotaciones lentas en cada dirección.",secs:45,xp:40},
+  {zone:"Muñecas",zoneClass:"zone-wrist",name:"Círculos de muñeca",desc:"Extiende los brazos al frente. Rota ambas muñecas formando círculos amplios: 10 hacia adelante y 10 hacia atrás. Luego abre y cierra los puños 5 veces.",secs:40,xp:40},
+  {zone:"Espalda",zoneClass:"zone-back",name:"Giro torácico",desc:"Siéntate en el borde de la silla. Pon las manos en los hombros. Gira el torso hacia la derecha contando 3 seg, regresa al centro y repite hacia la izquierda. 5 veces cada lado.",secs:50,xp:50},
+  {zone:"Ojos",zoneClass:"zone-eyes",name:"Regla 20-20-20",desc:"Deja de mirar la pantalla. Enfoca un objeto a al menos 6 metros de distancia durante 20 segundos. Parpadea consciente y lentamente 10 veces para rehiclratar la córnea.",secs:30,xp:30},
+  {zone:"Respiración",zoneClass:"zone-breath",name:"Respiración 4-4-4",desc:"Inhala por la nariz contando 4. Mantén el aire 4 segundos. Exhala por la boca contando 4. Repite 4 ciclos completos. Deja que los hombros caigan con cada exhalación.",secs:55,xp:50},
+];
+
+let curStep=0,timerRunning=false,timerInterval=null,timeLeft=0,sessionXP=0,stepsDone=[];
+const maxXP=STEPS.reduce((a,s)=>a+s.xp,0);
+
+function renderStep(){
+  const s=STEPS[curStep];
+  document.getElementById('step-label').textContent=`Ejercicio ${curStep+1} de ${STEPS.length}`;
+  document.getElementById('step-bar').style.width=`${((curStep+1)/STEPS.length)*100}%`;
+  document.getElementById('step-zone').textContent=s.zone;
+  document.getElementById('step-zone').className=`step-zone ${s.zoneClass}`;
+  document.getElementById('step-name').textContent=s.name;
+  document.getElementById('step-desc').textContent=s.desc;
+  document.getElementById('timer-num').textContent=s.secs;
+  document.getElementById('ring-fg').style.strokeDashoffset='0';
+  document.getElementById('btn-action').textContent='Iniciar ejercicio';
+  document.getElementById('pts-display').textContent=`+${s.xp} XP`;
+  document.querySelectorAll('.step-pip').forEach((p,i)=>{
+    p.className='step-pip'+(i<curStep?' done':i===curStep?' current':'');
+  });
+  timerRunning=false;
+  clearInterval(timerInterval);
+}
+
+function handleAction(){
+  const s=STEPS[curStep];
+  if(!timerRunning){
+    timerRunning=true;
+    timeLeft=s.secs;
+    document.getElementById('btn-action').textContent='Completar';
+    const circ=document.getElementById('ring-fg');
+    timerInterval=setInterval(()=>{
+      timeLeft--;
+      document.getElementById('timer-num').textContent=timeLeft;
+      const pct=timeLeft/s.secs;
+      circ.style.strokeDashoffset=String(251*(1-pct));
+      if(timeLeft<=0){clearInterval(timerInterval);completeStep();}
+    },1000);
+  } else {
+    clearInterval(timerInterval);
+    completeStep();
+  }
+}
+
+function completeStep(){
+  timerRunning=false;
+  const s=STEPS[curStep];
+  sessionXP+=s.xp;
+  const pct=Math.round((sessionXP/maxXP)*100);
+  document.getElementById('xp-fill').style.width=pct+'%';
+  document.getElementById('xp-total').textContent=`${sessionXP} / ${maxXP}`;
+  document.getElementById('pts-display').textContent=`+${sessionXP} XP`;
+  document.querySelector(`#pip-${curStep}`).className='step-pip done';
+  curStep++;
+  if(curStep>=STEPS.length){
+    document.getElementById('step-card').style.display='none';
+    document.getElementById('finish-banner').style.display='block';
+    updateArcadeOnFinish();
+  } else {
+    renderStep();
+  }
+}
+
+function skipStep(){
+  clearInterval(timerInterval);
+  timerRunning=false;
+  document.querySelector(`#pip-${curStep}`).className='step-pip';
+  curStep++;
+  if(curStep>=STEPS.length){
+    document.getElementById('step-card').style.display='none';
+    document.getElementById('finish-banner').style.display='block';
+  } else {
+    renderStep();
+  }
+}
+
+function resetGuided(){
+  curStep=0;sessionXP=0;timerRunning=false;clearInterval(timerInterval);
+  document.getElementById('step-card').style.display='';
+  document.getElementById('finish-banner').style.display='none';
+  document.getElementById('xp-fill').style.width='0%';
+  document.getElementById('xp-total').textContent=`0 / ${maxXP}`;
+  renderStep();
+}
+
+function switchTab(tab){
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>{
+    const tabs=['guided','arcade','ranking'];
+    b.classList.toggle('active',tabs[i]===tab);
+  });
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+tab).classList.add('active');
+}
+
+/* ARCADE */
+const CHALLENGES=[
+  {id:'neck',icon:'○',iconBg:'#EEEDFE',title:'Cuello al máximo',desc:'Completa la rotación cervical 45 seg sin parar',pts:50,done:false,locked:false},
+  {id:'wrist',icon:'◇',iconBg:'#FAEEDA',title:'Muñecas de acero',desc:'10 círculos completos + abre/cierra puños',pts:50,done:false,locked:false},
+  {id:'back',icon:'▽',iconBg:'#E1F5EE',title:'Giro torácico x5',desc:'5 rotaciones completas a cada lado',pts:60,done:false,locked:false},
+  {id:'eyes',icon:'◎',iconBg:'#E6F1FB',title:'Ojos descansados',desc:'Aplica la regla 20-20-20 dos veces seguidas',pts:40,done:false,locked:false},
+  {id:'breath',icon:'◯',iconBg:'#FAECE7',title:'Respiración zen',desc:'4 ciclos 4-4-4 sin interrupción',pts:60,done:false,locked:false},
+  {id:'combo',icon:'★',iconBg:'#EEEDFE',title:'Pausa perfecta',desc:'Completa TODOS los retos sin saltar ninguno',pts:100,done:false,locked:true},
+];
+
+let arcPoints=320,arcStreak=3,doneCount=0,comboCount=1;
+
+function renderChallenges(){
+  const list=document.getElementById('challenges-list');
+  list.innerHTML=CHALLENGES.map(c=>`
+    <div class="challenge-card${c.done?' done':''}${c.locked?' locked':''}" onclick="${c.locked?'':c.done?'':'completeChallenge(\''+c.id+'\')'}">
+      <div class="ch-icon" style="background:${c.iconBg}">
+        <svg width="20" height="20" viewBox="0 0 20 20"><text x="10" y="14" text-anchor="middle" font-size="14" fill="${c.done?'#1D9E75':'#534AB7'}">${c.done?'✓':c.locked?'—':''}</text></svg>
+      </div>
+      <div style="flex:1;min-width:0;">
+        <div class="ch-title">${c.title}</div>
+        <div class="ch-desc">${c.desc}</div>
+      </div>
+      <span class="ch-pts${c.done?' done-pts':c.locked?' locked-pts':''}">${c.done?'+'+c.pts+' XP ganado':c.locked?'Bloqueado':'+'+c.pts+' XP'}</span>
+    </div>`).join('');
+}
+
+function completeChallenge(id){
+  const c=CHALLENGES.find(x=>x.id===id);
+  if(!c||c.done||c.locked)return;
+  c.done=true;doneCount++;
+  arcPoints+=c.pts*(comboCount);
+  comboCount=Math.min(comboCount+1,3);
+  document.getElementById('arc-pts').textContent=arcPoints;
+  document.getElementById('arc-combo').textContent='x'+comboCount;
+  document.getElementById('combo-counter').textContent=Math.min(doneCount,3)+' / 3';
+  if(doneCount>=3){
+    document.querySelector('.combo-banner').style.background='#E1F5EE';
+    document.querySelector('.combo-banner').style.borderColor='#5DCAA5';
+    document.querySelector('.combo-text').style.color='#085041';
+    document.querySelector('.combo-text').textContent='Combo x2 activo — puntos duplicados!';
+    document.getElementById('arc-combo').textContent='x2';
+    document.getElementById('aw-combo').className='award unlocked';
+  }
+  if(doneCount===1)document.getElementById('aw-first').className='award unlocked';
+  if(CHALLENGES.filter(x=>!x.locked).every(x=>x.done)){
+    CHALLENGES.find(x=>x.id==='combo').locked=false;
+    CHALLENGES.find(x=>x.id==='combo').done=false;
+    document.getElementById('aw-perfect').className='award unlocked';
+  }
+  renderChallenges();
+}
+
+function updateArcadeOnFinish(){
+  arcPoints+=sessionXP;
+  arcStreak++;
+  document.getElementById('arc-pts').textContent=arcPoints;
+  document.getElementById('arc-streak').textContent=arcStreak;
+}
+
+/* RANKING */
+const MEMBERS=[
+  {name:'Ana García',initials:'AG',color:'#EEEDFE',textColor:'#3C3489',pts:580,streak:7,you:false},
+  {name:'Tú — Carlos R.',initials:'CR',color:'#E1F5EE',textColor:'#085041',pts:320,streak:3,you:true},
+  {name:'Luis Mora',initials:'LM',color:'#FAEEDA',textColor:'#633806',pts:290,streak:5,you:false},
+  {name:'Sofía Peña',initials:'SP',color:'#FAECE7',textColor:'#712B13',pts:210,streak:2,you:false},
+  {name:'David Kim',initials:'DK',color:'#E6F1FB',textColor:'#0C447C',pts:180,streak:4,you:false},
+  {name:'Marta López',initials:'ML',color:'#EEEDFE',textColor:'#3C3489',pts:260,streak:1,you:false},
+];
+const SORTED=[...MEMBERS].sort((a,b)=>b.pts-a.pts);
+const posLabels=['gold','silver','bronze','','',''];
+const posSymbols=['1','2','3','4','5','6'];
+
+function renderRanking(){
+  const list=document.getElementById('rank-list');
+  list.innerHTML=SORTED.map((m,i)=>`
+    <div class="rank-row${m.you?' you':''}">
+      <span class="rank-pos ${posLabels[i]}">${posSymbols[i]}</span>
+      <div class="rank-avatar" style="background:${m.color};color:${m.textColor}">${m.initials}</div>
+      <div style="flex:1;min-width:0;">
+        <div class="rank-name">${m.name}${m.you?'<span class="you-tag">tú</span>':''}</div>
+        <div class="rank-sub">${m.streak} dias de racha</div>
+      </div>
+      <div class="rank-pts-col">
+        <div class="rank-pts-val">${m.pts} XP</div>
+        <div class="rank-streak">${m.streak} racha</div>
+      </div>
+    </div>`).join('');
+}
+
+const weekDays=['L','M','X','J','V','S','D'];
+const weekPts=[380,520,290,410,240,0,0];
+const maxWk=Math.max(...weekPts,1);
+
+function renderWeek(){
+  const container=document.getElementById('week-chart');
+  container.innerHTML=weekDays.map((d,i)=>`
+    <div class="week-day">
+      <div class="week-day-label">${d}</div>
+      <div class="week-bar"><div class="week-bar-fill" style="height:${Math.round((weekPts[i]/maxWk)*100)}%"></div></div>
+      <div class="week-day-pts">${weekPts[i]||'—'}</div>
+    </div>`).join('');
+}
+
+renderStep();
+renderChallenges();
+renderRanking();
+renderWeek();
+</script>
