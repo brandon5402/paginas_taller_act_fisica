@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevWellness — Bienestar para Desarrolladores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Source+Sans+3:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════
+   BASE & TOKENS
+══════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:       #FAFAF8;
+  --surface:  #F2EFE9;
+  --surface2: #E8E4DC;
+  --border:   #DDD9D0;
+  --border2:  #C9C4BA;
+  --text:     #1C1917;
+  --text2:    #57534E;
+  --text3:    #A8A29E;
+  --purple:   #5B47E0;
+  --purple-l: #EDE9FD;
+  --purple-d: #3B2DB5;
+  --green:    #059669;
+  --green-l:  #D1FAE5;
+  --amber:    #D97706;
+  --amber-l:  #FEF3C7;
+  --blue:     #2563EB;
+  --blue-l:   #DBEAFE;
+  --red:      #DC2626;
+  --red-l:    #FEE2E2;
+  --radius:   10px;
+  --radius-sm:6px;
+  --shadow:   0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 4px 12px rgba(0,0,0,.08);
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ══════════════════════════════════════
+   TOP NAV
+══════════════════════════════════════ */
+.topnav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(250,250,248,.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  display: flex; align-items: center; gap: 0;
+}
+.nav-brand {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800; font-size: 17px;
+  color: var(--purple);
+  padding: 14px 20px 14px 0;
+  border-right: 1px solid var(--border);
+  margin-right: 16px;
+  white-space: nowrap;
+  letter-spacing: -.3px;
+}
+.nav-links { display: flex; gap: 2px; overflow-x: auto; }
+.nav-links a {
+  font-size: 13px; font-weight: 500;
+  color: var(--text2);
+  text-decoration: none;
+  padding: 14px 12px;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: color .15s, border-color .15s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links a.active { color: var(--purple); border-bottom-color: var(--purple); }
+
+/* ══════════════════════════════════════
+   LAYOUT
+══════════════════════════════════════ */
+.page-wrap { max-width: 1060px; margin: 0 auto; padding: 0 1.5rem 6rem; }
+
+/* ══════════════════════════════════════
+   HERO
+══════════════════════════════════════ */
+.hero {
+  padding: 5rem 0 4rem;
+  border-bottom: 1px solid var(--border);
+}
+.hero-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 500;
+  color: var(--purple);
+  letter-spacing: .12em; text-transform: uppercase;
+  background: var(--purple-l);
+  display: inline-block; padding: 4px 12px;
+  border-radius: 20px; margin-bottom: 1.25rem;
+}
+.hero-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(32px, 5vw, 54px);
+  font-weight: 800; line-height: 1.1;
+  letter-spacing: -.04em;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+.hero-title span { color: var(--purple); }
+.hero-sub {
+  font-size: 17px; color: var(--text2);
+  max-width: 600px; line-height: 1.7;
+  margin-bottom: 2rem;
+}
+.hero-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  font-size: 12px; font-weight: 500;
+  padding: 5px 14px; border-radius: 20px;
+  border: 1px solid var(--border2);
+  color: var(--text2); background: var(--bg);
+}
+
+/* ══════════════════════════════════════
+   SECTION SHELL
+══════════════════════════════════════ */
+.section { padding: 4rem 0 2rem; border-bottom: 1px solid var(--border); }
+.section:last-child { border-bottom: none; }
+.section-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--text3);
+  margin-bottom: .6rem;
+}
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(22px, 3.5vw, 32px);
+  font-weight: 700; letter-spacing: -.03em;
+  color: var(--text); margin-bottom: .6rem;
+  line-height: 1.15;
+}
+.section-lead {
+  font-size: 16px; color: var(--text2);
+  max-width: 660px; line-height: 1.7;
+  margin-bottom: 2.5rem;
+}
+
+/* ══════════════════════════════════════
+   GRIDS & CARDS
+══════════════════════════════════════ */
+.g2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+.g3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.g4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+.card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.4rem;
+  box-shadow: var(--shadow);
+}
+.card-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600; color: var(--text); margin: 0 0 6px; }
+.card-body { font-size: 13.5px; color: var(--text2); line-height: 1.65; }
+.badge {
+  display: inline-block; font-size: 11px; font-weight: 600;
+  padding: 3px 11px; border-radius: 20px; margin-bottom: 10px;
+  letter-spacing: .02em;
+}
+.bp { background: var(--purple-l); color: var(--purple-d); }
+.bt { background: var(--green-l); color: #065F46; }
+.ba { background: var(--amber-l); color: #92400E; }
+.bb { background: var(--blue-l); color: #1E40AF; }
+.br { background: var(--red-l); color: #991B1B; }
+.bs { background: var(--surface); color: var(--text2); }
+
+/* ══════════════════════════════════════
+   DEFINITION BLOCKS
+══════════════════════════════════════ */
+.def-block {
+  border-left: 3px solid;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1rem 1.4rem;
+  margin-bottom: 12px;
+  background: white;
+  border: 1px solid var(--border);
+  border-left: 4px solid;
+  box-shadow: var(--shadow);
+}
+.def-block.blue  { border-left-color: var(--blue); }
+.def-block.amber { border-left-color: var(--amber); }
+.def-block.red   { border-left-color: var(--red); }
+.def-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.def-body { font-size: 13.5px; color: var(--text2); line-height: 1.7; }
+
+/* ══════════════════════════════════════
+   COMPANY CARDS
+══════════════════════════════════════ */
+.company-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+.company-card {
+  background: white; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.25rem 1.4rem;
+  box-shadow: var(--shadow);
+}
+.company-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 500; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--text3);
+  margin-bottom: .75rem; padding-bottom: .6rem;
+  border-bottom: 1px solid var(--border);
+}
+.rec-list { list-style: none; }
+.rec-list li {
+  font-size: 13px; color: var(--text2);
+  padding: 5px 0; border-bottom: 1px solid var(--border);
+  line-height: 1.5; display: flex; gap: 8px; align-items: flex-start;
+}
+.rec-list li:last-child { border-bottom: none; }
+.rec-list li::before { content: "→"; color: var(--purple); flex-shrink: 0; font-size: 12px; margin-top: 2px; }
+
+/* ══════════════════════════════════════
+   RULE BOX
+══════════════════════════════════════ */
+.rule-box {
+  background: var(--purple-l);
+  border: 1px solid #C4BBF5;
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  display: flex; gap: 1rem; align-items: flex-start;
+}
+.rule-icon {
+  width: 44px; height: 44px; border-radius: 10px;
+  background: var(--purple); color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800;
+  flex-shrink: 0;
+}
+.rule-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--purple-d); margin-bottom: 4px; }
+.rule-body { font-size: 13.5px; color: #4C3BA8; line-height: 1.6; }
+
+/* ══════════════════════════════════════
+   APP HERO & MOCKUP
+══════════════════════════════════════ */
+.app-hero {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem 2rem;
+  display: flex; align-items: center; gap: 20px;
+  flex-wrap: wrap; margin-bottom: 2rem;
+}
+.app-logo {
+  width: 64px; height: 64px; border-radius: 18px;
+  background: var(--purple); color: white;
+  font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(91,71,224,.3);
+}
+.app-name { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; letter-spacing: -.03em; color: var(--text); }
+.app-tagline { font-size: 14px; color: var(--text2); margin-top: 3px; }
+
+/* PHONE MOCKUPS */
+.phones-row {
+  display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+  background: var(--surface); border-radius: var(--radius);
+  padding: 1.75rem; border: 1px solid var(--border);
+  margin-bottom: 2rem;
+}
+.phone-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.phone-caption { font-size: 11px; color: var(--text3); font-family: 'JetBrains Mono', monospace; letter-spacing: .06em; }
+.phone {
+  width: 195px; background: white;
+  border: 1px solid var(--border); border-radius: 18px;
+  overflow: hidden; box-shadow: var(--shadow-md);
+}
+.phone-bar { background: var(--surface); padding: 10px 14px 8px; border-bottom: 1px solid var(--border); }
+.phone-app { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--text); }
+.phone-sub { font-size: 11px; color: var(--text3); margin-top: 1px; }
+.phone-body { padding: 12px 14px; }
+.phone-stat { background: var(--surface); border-radius: var(--radius-sm); padding: 8px 10px; margin-bottom: 8px; }
+.phone-stat-label { font-size: 10px; color: var(--text3); margin-bottom: 2px; font-family: 'JetBrains Mono', monospace; }
+.phone-stat-val { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; color: var(--text); }
+.phone-pbar { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; margin-top: 6px; }
+.phone-pfill { height: 100%; border-radius: 3px; }
+.phone-btn {
+  width: 100%; text-align: center; font-size: 12px; font-weight: 600;
+  padding: 8px; border-radius: var(--radius-sm); border: none; cursor: pointer;
+  margin-bottom: 6px; display: block; font-family: 'Source Sans 3', sans-serif;
+}
+.phone-btn-p { background: var(--purple); color: white; }
+.phone-btn-o { background: transparent; border: 1px solid var(--border2); color: var(--text2); }
+.streak-row { display: flex; gap: 4px; margin: 8px 0; }
+.streak-dot {
+  width: 20px; height: 20px; border-radius: 50%;
+  font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+}
+.sd-done { background: var(--purple); color: white; }
+.sd-now  { background: var(--amber-l); color: var(--amber); border: 1.5px solid var(--amber); }
+.sd-off  { background: var(--surface); color: var(--text3); border: 1px solid var(--border); }
+.notif {
+  background: var(--surface); border-left: 3px solid var(--purple);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 7px 9px; margin-bottom: 7px;
+}
+.notif-title { font-size: 11px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.notif-body { font-size: 10px; color: var(--text2); line-height: 1.4; }
+
+/* ══════════════════════════════════════
+   CHAT WIDGET
+══════════════════════════════════════ */
+.chat-shell {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.5rem;
+  max-width: 660px;
+}
+.chat-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 1.25rem; padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.bot-av {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--purple-l); color: var(--purple-d);
+  font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.chat-name { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--text); }
+.chat-status { font-size: 12px; color: var(--green); }
+.msg-row { display: flex; gap: 8px; margin-bottom: 10px; align-items: flex-end; }
+.msg-row.user { flex-direction: row-reverse; }
+.bubble {
+  max-width: 78%; padding: 9px 13px;
+  border-radius: 14px; font-size: 13.5px; line-height: 1.55;
+}
+.bubble-bot { background: white; border: 1px solid var(--border); color: var(--text); border-bottom-left-radius: 4px; }
+.bubble-user { background: var(--purple); color: white; border-bottom-right-radius: 4px; }
+.mini-av {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--purple-l); color: var(--purple-d);
+  font-size: 10px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.qr-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 10px 32px; }
+.qr { font-size: 12px; padding: 4px 12px; border-radius: 20px; border: 1px solid var(--purple); color: var(--purple-d); background: var(--purple-l); cursor: pointer; }
+
+/* ══════════════════════════════════════
+   INTERACTIVE — PAUSA ACTIVA
+══════════════════════════════════════ */
+.interactive-shell {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+}
+.itabs {
+  display: flex; gap: 5px; padding: 10px;
+  background: white; border-bottom: 1px solid var(--border);
+}
+.itab {
+  flex: 1; padding: 8px 6px; font-size: 13px; font-weight: 600;
+  font-family: 'Source Sans 3', sans-serif;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: transparent; color: var(--text2); cursor: pointer;
+  transition: all .15s;
+}
+.itab.on { background: var(--purple); color: white; border-color: var(--purple); }
+.ipanel { display: none; padding: 1.5rem; }
+.ipanel.on { display: block; }
+
+/* Timer */
+.step-head { display: flex; align-items: center; gap: 12px; margin-bottom: 1.25rem; }
+.step-cnt { font-size: 13px; color: var(--text2); white-space: nowrap; }
+.prog-bar { flex: 1; height: 6px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 4px; background: var(--purple); transition: width .4s; }
+.xp-pill { font-size: 12px; font-weight: 600; color: var(--purple-d); background: var(--purple-l); padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+.pip-row { display: flex; gap: 6px; justify-content: center; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.pip {
+  width: 30px; height: 30px; border-radius: 50%;
+  font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border); color: var(--text3); background: var(--surface);
+}
+.pip.done { background: var(--purple); color: white; border-color: var(--purple); }
+.pip.cur  { background: var(--purple-l); color: var(--purple-d); border: 2px solid var(--purple); }
+.step-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; text-align: center; box-shadow: var(--shadow); }
+.step-zone { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 11px; border-radius: 20px; margin-bottom: 14px; letter-spacing: .04em; }
+.sz-neck   { background: var(--purple-l); color: var(--purple-d); }
+.sz-wrist  { background: var(--amber-l);  color: #92400E; }
+.sz-back   { background: var(--green-l);  color: #065F46; }
+.sz-eyes   { background: var(--blue-l);   color: #1E40AF; }
+.sz-breath { background: var(--red-l);    color: #991B1B; }
+.step-name { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.step-desc { font-size: 14px; color: var(--text2); line-height: 1.65; margin-bottom: 1.5rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+.ring-wrap { width: 100px; height: 100px; margin: 0 auto 1.5rem; }
+.ring-wrap svg { width: 100px; height: 100px; }
+.ring-bg  { fill: none; stroke: var(--border); stroke-width: 7; }
+.ring-fg  { fill: none; stroke: var(--purple); stroke-width: 7; stroke-linecap: round; stroke-dasharray: 264; stroke-dashoffset: 0; transform: rotate(-90deg); transform-origin: 50px 50px; transition: stroke-dashoffset .5s linear; }
+.ring-num { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; fill: var(--text); }
+.ring-sub { font-size: 11px; fill: var(--text3); }
+.btn-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.btn-main { padding: 10px 28px; font-size: 14px; font-weight: 600; font-family: 'Source Sans 3', sans-serif; border-radius: var(--radius-sm); border: none; cursor: pointer; background: var(--purple); color: white; transition: transform .1s; }
+.btn-main:active { transform: scale(.97); }
+.btn-skip { padding: 10px 20px; font-size: 14px; font-family: 'Source Sans 3', sans-serif; border-radius: var(--radius-sm); border: 1px solid var(--border2); background: transparent; color: var(--text2); cursor: pointer; }
+.xp-wrap { margin: 1.25rem 0; display: flex; align-items: center; gap: 10px; }
+.xp-bar { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.xp-fill { height: 100%; background: var(--purple); border-radius: 4px; transition: width .5s; }
+.xp-lbl { font-size: 12px; color: var(--text2); white-space: nowrap; }
+.finish-box { background: var(--green-l); border: 1px solid #6EE7B7; border-radius: var(--radius); padding: 1.5rem; text-align: center; }
+.finish-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: #065F46; margin-bottom: 6px; }
+.finish-sub { font-size: 14px; color: #059669; margin-bottom: 1.25rem; }
+
+/* Arcade */
+.arc-header { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 1rem; }
+.arc-stat-v { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; color: var(--text); }
+.arc-stat-l { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.combo-bar { background: var(--purple-l); border: 1px solid #C4BBF5; border-radius: var(--radius-sm); padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 8px; }
+.combo-txt { font-size: 13px; color: var(--purple-d); }
+.combo-val { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: var(--purple); }
+.ch-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; display: flex; align-items: center; gap: 14px; margin-bottom: 10px; cursor: pointer; transition: border-color .15s, box-shadow .15s; box-shadow: var(--shadow); }
+.ch-card:hover:not(.locked):not(.done) { border-color: var(--purple); box-shadow: 0 0 0 2px var(--purple-l); }
+.ch-card.done { border-left: 4px solid var(--green); }
+.ch-card.locked { opacity: .45; cursor: not-allowed; }
+.ch-ico { width: 40px; height: 40px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.ch-title { font-size: 14px; font-weight: 600; color: var(--text); }
+.ch-desc  { font-size: 12px; color: var(--text2); margin-top: 2px; }
+.ch-pts   { font-size: 13px; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-left: auto; flex-shrink: 0; }
+.ch-pts.avail  { background: var(--green-l); color: #065F46; }
+.ch-pts.earned { background: var(--green-l); color: #065F46; }
+.ch-pts.lckd   { background: var(--surface); color: var(--text3); }
+.awards-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 1rem; }
+.award { font-size: 12px; padding: 5px 13px; border-radius: 20px; border: 1px solid var(--border); color: var(--text3); background: var(--surface); }
+.award.unlocked { background: var(--amber-l); border-color: #FCD34D; color: #92400E; font-weight: 600; }
+
+/* Ranking */
+.rank-stats { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 1.25rem; }
+.rank-stat { flex: 1; min-width: 120px; background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: .75rem 1rem; box-shadow: var(--shadow); }
+.rank-stat-v { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--text); }
+.rank-stat-l { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.rank-row-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px; background: white;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  margin-bottom: 8px; box-shadow: var(--shadow);
+}
+.rank-row-item.you { border: 2px solid var(--purple); }
+.rk-pos { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800; width: 26px; text-align: center; flex-shrink: 0; color: var(--text3); }
+.rk-pos.g { color: var(--amber); } .rk-pos.s { color: var(--text3); } .rk-pos.b { color: #B45309; }
+.rk-av { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+.rk-name { flex: 1; font-size: 14px; font-weight: 500; color: var(--text); }
+.rk-sub  { font-size: 12px; color: var(--text3); }
+.rk-pts-v { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--text); }
+.rk-pts-s { font-size: 11px; color: var(--text3); }
+.you-tag { font-size: 11px; background: var(--purple-l); color: var(--purple-d); padding: 1px 8px; border-radius: 20px; margin-left: 6px; font-weight: 600; }
+.week-chart { display: flex; gap: 6px; margin: 1rem 0 4px; align-items: flex-end; }
+.wday { flex: 1; text-align: center; }
+.wlbl { font-size: 10px; color: var(--text3); margin-bottom: 4px; font-family: 'JetBrains Mono', monospace; }
+.wbar { border-radius: 3px 3px 0 0; background: var(--surface); position: relative; overflow: hidden; }
+.wbar-fill { position: absolute; bottom: 0; left: 0; right: 0; background: var(--purple); border-radius: 3px; }
+.wval { font-size: 10px; color: var(--text2); margin-top: 4px; }
+
+/* ══════════════════════════════════════
+   PROGRAMA DE BIENESTAR
+══════════════════════════════════════ */
+.timeline { display: flex; flex-direction: column; }
+.tl-item { display: flex; gap: 16px; padding-bottom: 24px; }
+.tl-item:last-child { padding-bottom: 0; }
+.tl-left { display: flex; flex-direction: column; align-items: center; width: 38px; flex-shrink: 0; }
+.tl-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 800; flex-shrink: 0; }
+.tl-line { flex: 1; width: 2px; background: var(--border); margin-top: 6px; }
+.tl-item:last-child .tl-line { display: none; }
+.tl-content { flex: 1; padding-top: 6px; }
+.tl-phase { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--text3); margin-bottom: 4px; }
+.tl-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.tl-body { font-size: 13.5px; color: var(--text2); line-height: 1.65; }
+
+/* Before/After toggle */
+.ba-toggle { display: flex; gap: 6px; margin-bottom: 1.25rem; }
+.ba-btn { padding: 7px 20px; font-size: 13px; font-weight: 600; font-family: 'Source Sans 3', sans-serif; border-radius: 20px; border: 1px solid var(--border2); background: transparent; color: var(--text2); cursor: pointer; transition: all .15s; }
+.ba-btn.on { background: var(--purple); color: white; border-color: var(--purple); }
+.diff-wrap { display: flex; gap: 14px; flex-wrap: wrap; }
+.diff-col { flex: 1; min-width: 200px; }
+.diff-lbl { font-size: 12px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 10px; text-align: center; font-family: 'JetBrains Mono', monospace; }
+.diff-item { display: flex; justify-content: space-between; align-items: center; padding: 9px 12px; background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 6px; box-shadow: var(--shadow); }
+.diff-name { font-size: 13px; color: var(--text2); }
+.diff-val  { font-size: 14px; font-weight: 700; }
+.bad  { color: var(--red); } .good { color: var(--green); }
+.arrow-mid { display: flex; align-items: center; justify-content: center; color: var(--text3); font-size: 22px; padding: 0 6px; }
+
+/* KPIs */
+.kpi-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 2rem; }
+.kpi { flex: 1; min-width: 130px; background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.15rem; box-shadow: var(--shadow); }
+.kpi-v { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; color: var(--text); }
+.kpi-l { font-size: 12px; color: var(--text3); margin-top: 3px; }
+.kpi-d { font-size: 12px; font-weight: 600; margin-top: 6px; }
+.kpi-up { color: var(--green); } .kpi-dn { color: var(--red); }
+
+.prog-zone { margin-bottom: 12px; }
+.pz-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+.pz-name { font-size: 13.5px; color: var(--text2); }
+.pz-val  { font-size: 13.5px; font-weight: 700; color: var(--green); }
+.pz-bar { height: 7px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.pz-fill { height: 100%; border-radius: 4px; background: var(--purple); }
+
+.roi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 2rem; }
+.roi-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.15rem; text-align: center; box-shadow: var(--shadow); }
+.roi-v { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; }
+.roi-l { font-size: 12.5px; color: var(--text2); margin-top: 4px; line-height: 1.5; }
+
+/* ══════════════════════════════════════
+   STARTUP
+══════════════════════════════════════ */
+.startup-hero {
+  background: linear-gradient(135deg, #F5F3FD 0%, #EDE9FD 100%);
+  border: 1px solid #C4BBF5; border-radius: var(--radius);
+  padding: 2rem; display: flex; align-items: center; gap: 20px;
+  flex-wrap: wrap; margin-bottom: 2rem;
+}
+.canvas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-bottom: 2rem; }
+.canvas-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem; box-shadow: var(--shadow); }
+.canvas-card-title { font-size: 10px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 8px; font-family: 'JetBrains Mono', monospace; }
+.canvas-card ul { list-style: disc; padding-left: 14px; }
+.canvas-card ul li { font-size: 12px; color: var(--text2); line-height: 1.55; margin-bottom: 2px; }
+.canvas-card p { font-size: 12px; color: var(--text2); line-height: 1.6; }
+
+.price-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 2rem; }
+.price-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; box-shadow: var(--shadow); }
+.price-card.featured { border: 2px solid var(--purple); }
+.price-plan { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: .1em; color: var(--text3); margin-bottom: 8px; }
+.price-plan.featured-lbl { color: var(--purple); }
+.price-val { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; color: var(--text); line-height: 1; }
+.price-per { font-size: 13px; color: var(--text3); margin-top: 3px; }
+.price-desc { font-size: 12.5px; color: var(--text2); margin-top: 10px; line-height: 1.55; }
+
+.roadmap { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 2rem; }
+.rm-phase { flex: 1; min-width: 150px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem; }
+.rm-lbl { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .08em; color: var(--text3); margin-bottom: 4px; }
+.rm-name { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.rm-item { font-size: 12px; color: var(--text2); padding: 4px 0; border-bottom: 1px solid var(--border); }
+.rm-item:last-child { border-bottom: none; }
+
+.tool-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; display: flex; gap: 12px; align-items: flex-start; box-shadow: var(--shadow); }
+.tool-ico { width: 38px; height: 38px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 800; flex-shrink: 0; }
+.tool-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+.tool-desc { font-size: 13px; color: var(--text2); line-height: 1.55; }
+
+/* Feat list */
+.feat-list { list-style: none; }
+.feat-list li { display: flex; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 13.5px; color: var(--text2); line-height: 1.55; }
+.feat-list li:last-child { border-bottom: none; }
+.feat-list li::before { content: "•"; color: var(--purple); font-weight: 700; flex-shrink: 0; }
+
+/* ══════════════════════════════════════
+   FOOTER
+══════════════════════════════════════ */
+.footer {
+  background: var(--surface); border-top: 1px solid var(--border);
+  padding: 2.5rem 0; margin-top: 4rem; text-align: center;
+}
+.footer-brand { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--purple); margin-bottom: 8px; }
+.footer-sub { font-size: 13px; color: var(--text3); }
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media (max-width: 640px) {
+  .topnav { padding: 0 1rem; }
+  .page-wrap { padding: 0 1rem 4rem; }
+  .hero { padding: 3rem 0 2.5rem; }
+  .phones-row { padding: 1rem; }
+  .phone { width: 160px; }
+  .diff-wrap { flex-direction: column; }
+  .arrow-mid { transform: rotate(90deg); }
+  .itabs { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav class="topnav">
+  <div class="nav-brand">DevWellness</div>
+  <div class="nav-links">
+    <a href="#riesgos" class="active">Riesgos</a>
+    <a href="#condiciones">Condiciones</a>
+    <a href="#empresas">Empresas</a>
+    <a href="#app">App DevPause</a>
+    <a href="#pausa">Pausa activa</a>
+    <a href="#programa">Programa</a>
+    <a href="#startup">Startup</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+<!-- ══ HERO ══ -->
+<header class="hero">
+  <div class="hero-label">Guía completa 2026</div>
+  <h1 class="hero-title">Bienestar digital para<br><span>desarrolladores de software</span></h1>
+  <p class="hero-sub">Riesgos de largas jornadas sin pausas, condiciones de salud claves, recomendaciones de las big tech, una app de bienestar, pausas activas gamificadas y una propuesta de startup.</p>
+  <div class="hero-chips">
+    <span class="chip">Salud ocupacional</span>
+    <span class="chip">Ergonomía</span>
+    <span class="chip">Fatiga digital</span>
+    <span class="chip">Productividad</span>
+    <span class="chip">Gamificación</span>
+    <span class="chip">Startup</span>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════
+  SECCIÓN 1 — RIESGOS
+══════════════════════════════════════════ -->
+<section class="section" id="riesgos">
+  <div class="section-eyebrow">01 — Análisis</div>
+  <h2 class="section-title">Efectos de largas jornadas<br>sin pausas activas</h2>
+  <p class="section-lead">Pasar horas frente al computador sin descansos genera impactos en cuatro dimensiones. Físicamente el cuerpo sufre, mentalmente se agota, la productividad paradójicamente cae y la fatiga digital se acumula de forma invisible.</p>
+
+  <div class="g2">
+    <div class="card">
+      <span class="badge br">Físicos</span>
+      <h3 class="card-title">Impacto en el cuerpo</h3>
+      <p class="card-body">Dolor de espalda, cuello y hombros por postura estática prolongada. Síndrome del túnel carpiano por movimientos repetitivos de teclado y ratón. Fatiga visual, ojos secos e irritados. Dolores de cabeza frecuentes. Riesgo cardiovascular por sedentarismo sostenido durante toda la jornada.</p>
+    </div>
+    <div class="card">
+      <span class="badge ba">Mentales</span>
+      <h3 class="card-title">Impacto en la mente</h3>
+      <p class="card-body">Estrés por hiperconectividad y presión de respuesta inmediata. Ansiedad tecnológica o "tecnoestrés". Dificultad para desconectarse psicológicamente del trabajo al terminar la jornada. Síndrome de burnout por agotamiento acumulado. Disminución de la motivación y sensación de agotamiento constante.</p>
+    </div>
+    <div class="card">
+      <span class="badge bp">Productividad</span>
+      <h3 class="card-title">Impacto en el rendimiento</h3>
+      <p class="card-body">Reducción de la concentración y creatividad con el tiempo. Mayor tasa de errores en el código por fatiga cognitiva. Menor capacidad de resolución de problemas complejos. Aumento del ausentismo laboral por enfermedad. Paradójicamente, trabajar más horas sin pausas produce menos output de calidad.</p>
+    </div>
+    <div class="card">
+      <span class="badge ba">Fatiga digital</span>
+      <h3 class="card-title">Agotamiento tecnológico</h3>
+      <p class="card-body">Sobrecarga informativa por exceso de notificaciones. "Zoom fatigue": agotamiento tras videollamadas continuas. Fragmentación de la atención por interrupciones constantes. Dificultad para separar vida personal y laboral en entornos digitales. Sensación de disponibilidad permanente obligatoria.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+  SECCIÓN 2 — CONDICIONES
+══════════════════════════════════════════ -->
+<section class="section" id="condiciones">
+  <div class="section-eyebrow">02 — Conceptos clave</div>
+  <h2 class="section-title">Tres condiciones que todo<br>desarrollador debe conocer</h2>
+  <p class="section-lead">Estas no son simples molestias: son condiciones reconocidas clínicamente que pueden derivar en tratamientos de larga duración si no se previenen a tiempo.</p>
+
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:2.5rem;">
+    <div class="def-block blue">
+      <h3 class="def-title">Fatiga digital</h3>
+      <p class="def-body">Estado de agotamiento mental y físico generado por la sobreexposición a dispositivos digitales y la hiperconectividad. No es una categoría clínica cerrada, sino un desgaste acumulativo que aparece cuando el trabajo exige atención sostenida, reacción continua y conectividad casi permanente sin suficientes pausas. Se manifiesta con estrés, ansiedad, disminución de motivación, insomnio y dificultad para desconectarse del trabajo. La Universidad de Nottingham la describió como "el lado oscuro del trabajo digital".</p>
+    </div>
+    <div class="def-block amber">
+      <h3 class="def-title">Síndrome Visual Informático (SVI)</h3>
+      <p class="def-body">Conjunto de problemas oculares y visuales causados por la exposición prolongada a pantallas digitales. Al fijar los ojos en una pantalla, la frecuencia del parpadeo se reduce hasta la mitad, generando sequedad, irritación y fatiga visual. Los síntomas incluyen: visión borrosa, ojos secos o ardorosos, dolor de cabeza en zona frontal, fotofobia, diplopía temporal y mareos. Puede aparecer desde las 3 horas de uso continuo. Aunque suele ser temporal, la exposición sostenida puede agravar alteraciones visuales preexistentes a largo plazo.</p>
+    </div>
+    <div class="def-block red">
+      <h3 class="def-title">Lesiones por Esfuerzo Repetitivo (LER)</h3>
+      <p class="def-body">Grupo de afecciones en músculos, tendones y nervios causadas por movimientos repetitivos o posturas sostenidas. En programadores, las más frecuentes son: síndrome del túnel carpiano (compresión del nervio mediano en la muñeca, con hormigueo y debilidad en la mano), tendinitis de muñeca, epicondilitis y tenosinovitis. Los desarrolladores son especialmente vulnerables por la escritura de código durante largas horas con movimientos idénticos de teclado y ratón. En casos severos pueden requerir cirugía.</p>
+    </div>
+  </div>
+
+  <div class="rule-box">
+    <div class="rule-icon">20</div>
+    <div>
+      <p class="rule-title">Regla práctica: 20-20-20</p>
+      <p class="rule-body">Cada <strong>20 minutos</strong>, mira un objeto a <strong>20 pies</strong> (~6 metros) de distancia durante <strong>20 segundos</strong>. Esta técnica reduce la fatiga visual y permite que los músculos oculares descansen. Complementar con levantarse y estirarse cada hora y realizar pausas activas de 5 a 10 minutos cada 45-60 minutos de trabajo continuo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+  SECCIÓN 3 — EMPRESAS
+══════════════════════════════════════════ -->
+<section class="section" id="empresas">
+  <div class="section-eyebrow">03 — Big tech</div>
+  <h2 class="section-title">¿Qué recomiendan Google,<br>Microsoft y Apple?</h2>
+  <p class="section-lead">Las tres compañías coinciden en que el bienestar del empleado no es un gasto sino una inversión directa en innovación, calidad y retención de talento.</p>
+
+  <div class="company-grid">
+    <div class="company-card">
+      <p class="company-name">Google</p>
+      <ul class="rec-list">
+        <li>Recordatorios de bienestar en Google Calendar para pausas, hidratación y mindfulness durante el día</li>
+        <li>"No-Tech Tuesdays": desconexión de pantallas las noches del martes. El 97% de participantes reportó mejoras en bienestar y productividad al día siguiente</li>
+        <li>"Mindful Mornings": 30 minutos sin trabajo antes de iniciar la jornada laboral</li>
+        <li>Caminatas como "commute mental" antes y después de trabajar en remoto</li>
+        <li>Gimnasios, yoga y meditación mindfulness en sus instalaciones para mantener el foco</li>
+        <li>Política de seguridad psicológica: bienestar como base de la innovación del equipo</li>
+      </ul>
+    </div>
+    <div class="company-card">
+      <p class="company-name">Microsoft</p>
+      <ul class="rec-list">
+        <li>Microsoft Viva Insights: plataforma que programa automáticamente pausas, tiempo de descanso y meditación durante la jornada</li>
+        <li>Reuniones con inicio 5 minutos después de la hora para dar tiempo de moverse entre ellas</li>
+        <li>Silencio de notificaciones de Teams y Outlook fuera del horario laboral configurado</li>
+        <li>El Work Trend Index indica que descansos de hasta 10 minutos permiten que el cerebro "se reinicie" y reducen acumulación de estrés</li>
+        <li>Terapia 24/7 bajo demanda y webinars mensuales de salud mental vía "Microsoft Cares"</li>
+      </ul>
+    </div>
+    <div class="company-card">
+      <p class="company-name">Apple</p>
+      <ul class="rec-list">
+        <li>Apple Watch integra recordatorios de actividad y alertas para ponerse de pie cada hora si se ha permanecido sentado</li>
+        <li>Función "Tiempo en pantalla" para monitorear y limitar el uso de dispositivos de forma consciente</li>
+        <li>Investigación activa en bienestar de trabajadores como parte de la estrategia de retención de talento</li>
+        <li>Programas de pausas activas en sus oficinas con mejoras reportadas en salud y desempeño del equipo</li>
+        <li>Fomento del equilibrio vida-trabajo como parte central de su cultura corporativa</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+  SECCIÓN 4 — APP DEVPAUSE
+══════════════════════════════════════════ -->
+<section class="section" id="app">
+  <div class="section-eyebrow">04 — Diseño de producto</div>
+  <h2 class="section-title">App DevPause</h2>
+  <p class="section-lead">Una app de pausas activas diseñada específicamente para desarrolladores, que entiende el contexto del IDE y propone descansos en el momento exacto correcto, sin interrumpir el flujo de trabajo.</p>
+
+  <div class="app-hero">
+    <div class="app-logo">DP</div>
+    <div style="flex:1;min-width:200px;">
+      <p class="app-name">DevPause</p>
+      <p class="app-tagline">Tu compañero de bienestar inteligente para desarrolladores</p>
+    </div>
+    <div><span class="chip">iOS · Android</span> <span class="chip">VS Code plugin</span> <span class="chip">IA integrada</span></div>
+  </div>
+
+  <div class="g2" style="margin-bottom:2rem;">
+    <div class="card">
+      <span class="badge br">El problema</span>
+      <h3 class="card-title">Los desarrolladores ignoran su cuerpo mientras codifican</h3>
+      <p class="card-body">El estado de "flow" durante la programación desactiva la percepción del cansancio físico y mental. Las pausas se sienten como interrupciones, no como parte del trabajo. No existe una herramienta que entienda el contexto del desarrollador y proponga pausas en el momento correcto.</p>
+    </div>
+    <div class="card">
+      <span class="badge bt">La solución</span>
+      <h3 class="card-title">Pausas inteligentes, en el momento adecuado</h3>
+      <p class="card-body">DevPause detecta patrones de trabajo (tiempo en pantalla, tipo de actividad, velocidad de tipeo) y propone pausas activas personalizadas. Se integra al flujo del dev sin interrumpir commits, deploys ni reuniones activas sincronizando con el calendario.</p>
+    </div>
+  </div>
+
+  <!-- Mockup de pantallas -->
+  <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:17px;color:var(--text);margin-bottom:1.25rem;">Pantallas principales</h3>
+  <div class="phones-row">
+
+    <div class="phone-wrap">
+      <span class="phone-caption">Dashboard</span>
+      <div class="phone">
+        <div class="phone-bar"><p class="phone-app">DevPause</p><p class="phone-sub">Martes — 10:42 am</p></div>
+        <div class="phone-body">
+          <div class="phone-stat">
+            <p class="phone-stat-label">Tiempo en pantalla hoy</p>
+            <p class="phone-stat-val">2h 38m</p>
+            <div class="phone-pbar"><div class="phone-pfill" style="width:65%;background:var(--purple);"></div></div>
+          </div>
+          <div class="phone-stat">
+            <p class="phone-stat-label">Pausas completadas</p>
+            <p class="phone-stat-val">2 / 4</p>
+            <div class="phone-pbar"><div class="phone-pfill" style="width:50%;background:var(--green);"></div></div>
+          </div>
+          <p style="font-size:10px;color:var(--text3);margin:8px 0 4px;font-family:'JetBrains Mono',monospace;">Racha semanal</p>
+          <div class="streak-row">
+            <div class="streak-dot sd-done">L</div><div class="streak-dot sd-done">M</div>
+            <div class="streak-dot sd-now">X</div><div class="streak-dot sd-off">J</div>
+            <div class="streak-dot sd-off">V</div>
+          </div>
+          <button class="phone-btn phone-btn-p" style="margin-top:10px;">Iniciar pausa</button>
+          <button class="phone-btn phone-btn-o">Estadísticas</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="phone-wrap">
+      <span class="phone-caption">Notificaciones</span>
+      <div class="phone">
+        <div class="phone-bar"><p class="phone-app">Alertas</p><p class="phone-sub">Adaptativas por contexto</p></div>
+        <div class="phone-body">
+          <div class="notif"><p class="notif-title">Pausa visual — 20-20-20</p><p class="notif-body">Llevas 22 min seguidos. Mira algo a 6m, 20 seg.</p></div>
+          <div class="notif" style="border-left-color:var(--green);"><p class="notif-title">Momento ideal detectado</p><p class="notif-body">Terminaste un commit. Perfecto para 5 min de estiramiento.</p></div>
+          <div class="notif" style="border-left-color:var(--amber);"><p class="notif-title">Alerta de estrés</p><p class="notif-body">Velocidad de tipeo alta y muchos backspace. Respira.</p></div>
+          <div class="notif" style="border-left-color:var(--red);"><p class="notif-title">Sin pausas en 3 horas</p><p class="notif-body">Fatiga estimada: alta. Te recomiendo 10 min ahora.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phone-wrap">
+      <span class="phone-caption">Pausa activa</span>
+      <div class="phone">
+        <div class="phone-bar"><p class="phone-app">Pausa activa</p><p class="phone-sub">5 min · Nivel suave</p></div>
+        <div class="phone-body">
+          <div style="text-align:center;padding:8px 0 12px;">
+            <div style="width:62px;height:62px;border-radius:50%;background:var(--purple-l);border:3px solid var(--purple);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--purple-d);margin:0 auto 8px;">4:32</div>
+            <p style="font-size:11px;color:var(--text2);">Rotación de cuello</p>
+          </div>
+          <div style="font-size:11px;color:var(--text2);padding:5px 0;border-bottom:1px solid var(--border);">→ Inclina cabeza a la derecha · 5 seg</div>
+          <div style="font-size:11px;color:var(--text3);padding:5px 0;border-bottom:1px solid var(--border);">→ Regresa al centro · 3 seg</div>
+          <div style="font-size:11px;color:var(--text3);padding:5px 0;border-bottom:1px solid var(--border);">→ Inclina a la izquierda · 5 seg</div>
+          <button class="phone-btn phone-btn-p" style="margin-top:10px;">Completar pausa</button>
+          <button class="phone-btn phone-btn-o">Posponer 10 min</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Funciones -->
+  <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:17px;color:var(--text);margin-bottom:1.25rem;">Funciones principales</h3>
+  <div class="g2" style="margin-bottom:2rem;">
+    <div class="card">
+      <span class="badge bp">Detección inteligente</span>
+      <ul class="feat-list">
+        <li><strong>Monitor de actividad:</strong> detecta tiempo ininterrumpido de escritura y velocidad de tipeo como indicadores de estrés.</li>
+        <li><strong>Contexto del IDE:</strong> plugin para VS Code que reconoce commits, errores repetidos y compilaciones para elegir el momento ideal.</li>
+        <li><strong>Sincronización calendario:</strong> evita interrupciones durante reuniones activas o deadlines marcados.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="badge bt">Pausas personalizadas</span>
+      <ul class="feat-list">
+        <li><strong>Biblioteca de ejercicios:</strong> rutinas de ojos, cuello, muñecas, espalda y respiración por duración (2, 5, 10 min).</li>
+        <li><strong>Modo silencioso:</strong> pausas guiadas solo por texto en videollamada o con auriculares.</li>
+        <li><strong>Perfil adaptativo:</strong> aprende qué tipo de pausa prefiere cada usuario según hora del día y carga de trabajo.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="badge ba">Gamificación</span>
+      <ul class="feat-list">
+        <li><strong>Rachas semanales:</strong> días consecutivos con pausas completas y logros desbloqueables por zona del cuerpo.</li>
+        <li><strong>Retos de equipo:</strong> el squad con mejor racha semanal gana visibilidad en el tablero compartido.</li>
+        <li><strong>Estadísticas semanales:</strong> resumen de horas activas, pausas realizadas y comparativa con la semana anterior.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="badge bb">Chatbot Byte (IA)</span>
+      <ul class="feat-list">
+        <li><strong>Check-in diario:</strong> pregunta corta al iniciar el día para ajustar el plan de pausas según el estado del dev.</li>
+        <li><strong>Asistente 24/7:</strong> responde síntomas, da consejos y guía ejercicios con lenguaje natural y tono de colega.</li>
+        <li><strong>Reportes mensuales:</strong> resumen conversacional del progreso con sugerencias concretas para el siguiente mes.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Chatbot -->
+  <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:17px;color:var(--text);margin-bottom:1.25rem;">Chatbot Byte — simulación</h3>
+  <div class="chat-shell">
+    <div class="chat-header">
+      <div class="bot-av">BY</div>
+      <div><p class="chat-name">Byte — asistente de bienestar</p><p class="chat-status">En línea · DevPause</p></div>
+    </div>
+    <div class="msg-row"><div class="mini-av">BY</div><div class="bubble bubble-bot">Hola! Antes de que empieces tu jornada: ¿cómo estás hoy? Cuéntame en una frase.</div></div>
+    <div class="qr-row"><span class="qr">Bien, con energía</span><span class="qr">Cansado/a</span><span class="qr">Estresado/a</span><span class="qr">Dolor de espalda</span></div>
+    <div class="msg-row user"><div class="bubble bubble-user">Tengo el cuello tenso y llevo 3 horas seguidas programando</div></div>
+    <div class="msg-row"><div class="mini-av">BY</div><div class="bubble bubble-bot">Entiendo — 3 horas sin pausa es bastante para tu sistema musculoesquelético. El cuello es uno de los primeros en acusar el esfuerzo postural. Te propongo una pausa de 5 minutos ahora mismo con ejercicios específicos para cervical. ¿Empezamos?</div></div>
+    <div class="qr-row"><span class="qr">Sí, iniciar pausa</span><span class="qr">Dame consejos primero</span><span class="qr">¿Por qué duele el cuello?</span></div>
+    <div class="msg-row user"><div class="bubble bubble-user">¿Qué tan seguido debería hacer pausas?</div></div>
+    <div class="msg-row"><div class="mini-av">BY</div><div class="bubble bubble-bot">La regla general es una pausa de 5-10 min cada 45-60 minutos de trabajo continuo. Para los ojos aplica la regla 20-20-20: cada 20 minutos, mira algo a 6 metros durante 20 segundos. Tu perfil muestra que sueles estar 80+ minutos sin pausa — vamos a reducir eso gradualmente.</div></div>
+    <div class="qr-row"><span class="qr">Ajustar recordatorios</span><span class="qr">Ver mi historial</span><span class="qr">Ejercicios de cuello</span></div>
+  </div>
+
+  <div style="margin-top:2rem;">
+    <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:17px;color:var(--text);margin-bottom:1.25rem;">Sistema de motivación</h3>
+    <div class="g3">
+      <div class="card"><span class="badge bp">Rachas y logros</span><p class="card-body">Semanas consecutivas con pausas completas desbloquean insignias. Primeros logros: "Primer descanso", "Semana saludable", "Cuello libre 7 días".</p></div>
+      <div class="card"><span class="badge bt">Retos de equipo</span><p class="card-body">El squad con mejor racha de bienestar semanal gana visibilidad en el tablero del equipo. La competencia sana crea cultura de cuidado mutuo.</p></div>
+      <div class="card"><span class="badge ba">Progreso visible</span><p class="card-body">Estadísticas en lenguaje humano: "Esta semana descansaste 42 min más que la anterior. Tu cuello lo agradece." Eso conecta más que una simple racha.</p></div>
+      <div class="card"><span class="badge bb">Modo Flow respetado</span><p class="card-body">Si el dev está en flow profundo la IA lo detecta y pospone el recordatorio — pero lo hace obligatorio después de 90 min. El respeto genera confianza.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+  SECCIÓN 5 — PAUSA ACTIVA INTERACTIVA
+══════════════════════════════════════════ -->
+<section class="section" id="pausa">
+  <div class="section-eyebrow">05 — Interactivo</div>
+  <h2 class="section-title">Pausa activa gamificada<br>de 5 minutos</h2>
+  <p class="section-lead">Secuencia completa para cuello, muñecas, espalda, ojos y respiración — con temporizador, sistema de puntos XP, modo arcade con retos y ranking de equipo.</p>
+
+  <div class="interactive-shell">
+    <div class="itabs">
+      <button class="itab on" onclick="iTab('guided')">Pausa guiada</button>
+      <button class="itab" onclick="iTab('arcade')">Modo arcade</button>
+      <button class="itab" onclick="iTab('ranking')">Ranking equipo</button>
+    </div>
+
+    <!-- PAUSA GUIADA -->
+    <div id="ip-guided" class="ipanel on">
+      <div class="step-head">
+        <span class="step-cnt" id="s-label">Ejercicio 1 de 5</span>
+        <div class="prog-bar"><div class="prog-fill" id="s-bar" style="width:20%"></div></div>
+        <span class="xp-pill" id="s-xp">+0 XP</span>
+      </div>
+      <div class="pip-row">
+        <div class="pip cur" id="pip0">1</div><div class="pip" id="pip1">2</div>
+        <div class="pip" id="pip2">3</div><div class="pip" id="pip3">4</div><div class="pip" id="pip4">5</div>
+      </div>
+      <div class="step-card" id="s-card">
+        <span class="step-zone sz-neck" id="s-zone">Cuello</span>
+        <div class="ring-wrap">
+          <svg viewBox="0 0 100 100">
+            <circle class="ring-bg" cx="50" cy="50" r="42"/>
+            <circle class="ring-fg" id="ring" cx="50" cy="50" r="42"/>
+            <text class="ring-num" x="50" y="50" text-anchor="middle" dominant-baseline="central" id="ring-num">45</text>
+            <text class="ring-sub" x="50" y="64" text-anchor="middle" dominant-baseline="central">seg</text>
+          </svg>
+        </div>
+        <h3 class="step-name" id="s-name">Rotación de cuello</h3>
+        <p class="step-desc" id="s-desc">Gira lentamente la cabeza de izquierda a derecha. Mantén los hombros bajos y relajados. 5 rotaciones lentas en cada dirección.</p>
+        <div class="btn-row">
+          <button class="btn-main" id="s-btn" onclick="handleStep()">Iniciar ejercicio</button>
+          <button class="btn-skip" onclick="skipStep()">Saltar</button>
+        </div>
+      </div>
+      <div class="xp-wrap">
+        <span class="xp-lbl">XP sesión</span>
+        <div class="xp-bar"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div>
+        <span class="xp-lbl" id="xp-tot">0 / 250</span>
+      </div>
+      <div class="finish-box" id="finish-box" style="display:none;">
+        <p class="finish-title">¡Pausa completada!</p>
+        <p class="finish-sub">Ganaste 250 XP · Racha activa: 3 días seguidos</p>
+        <div class="btn-row"><button class="btn-main" onclick="resetGuided()">Repetir</button><button class="btn-skip" onclick="iTab('ranking')">Ver ranking</button></div>
+      </div>
+    </div>
+
+    <!-- ARCADE -->
+    <div id="ip-arcade" class="ipanel">
+      <div class="arc-header">
+        <div><div class="arc-stat-v" id="arc-pts">320</div><div class="arc-stat-l">puntos hoy</div></div>
+        <div><div class="arc-stat-v" id="arc-str">3</div><div class="arc-stat-l">días de racha</div></div>
+        <div><div class="arc-stat-v">Nv. 4</div><div class="arc-stat-l">dev saludable</div></div>
+        <div><div class="arc-stat-v" id="arc-cmb">x1</div><div class="arc-stat-l">combo activo</div></div>
+      </div>
+      <div class="combo-bar">
+        <span class="combo-txt" id="combo-txt">Completa 3 retos seguidos para activar combo x2</span>
+        <span class="combo-val" id="combo-cnt">1 / 3</span>
+      </div>
+      <div id="ch-list"></div>
+      <div class="awards-row">
+        <div class="award" id="aw1">Primer reto</div>
+        <div class="award" id="aw2">Combo x2</div>
+        <div class="award" id="aw3">Pausa perfecta</div>
+        <div class="award" id="aw4">Racha de 5</div>
+      </div>
+    </div>
+
+    <!-- RANKING -->
+    <div id="ip-ranking" class="ipanel">
+      <div class="rank-stats">
+        <div class="rank-stat"><div class="rank-stat-v">Team Dev</div><div class="rank-stat-l">tu equipo</div></div>
+        <div class="rank-stat"><div class="rank-stat-v">1.840</div><div class="rank-stat-l">XP del equipo esta semana</div></div>
+        <div class="rank-stat"><div class="rank-stat-v">#2</div><div class="rank-stat-l">posición en empresa</div></div>
+      </div>
+      <div id="rk-list"></div>
+      <p style="font-size:13px;font-weight:600;color:var(--text2);margin:1.25rem 0 .5rem;">Actividad del equipo — esta semana</p>
+      <div class="week-chart" id="wk-chart"></div>
+      <p style="font-size:13px;font-weight:600;color:var(--text2);margin:1.25rem 0 .5rem;">Logros desbloqueados</p>
+      <div class="awards-row">
+        <div class="award unlocked">Semana sin saltar</div>
+        <div class="award unlocked">3 días seguidos</div>
+        <div class="award">7 días seguidos</div>
+        <div class="award">Equipo del mes</div>
+      </div>
+      <div style="margin-top:1.25rem;text-align:center;">
+        <button class="btn-main" onclick="iTab('guided');resetGuided()">Sumar XP ahora</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+  SECCIÓN 6 — PROGRAMA BIENESTAR
+══════════════════════════════════════════ -->
+<section class="section" id="programa">
+  <div class="section-eyebrow">06 — Caso empresarial</div>
+  <h2 class="section-title">Mini programa de bienestar<br>para equipos de software</h2>
+  <p class="section-lead">Una empresa de software con alta fatiga laboral puede implementar este programa de 12 semanas usando herramientas digitales existentes y medir el impacto con indicadores claros.</p>
+
+  <!-- Before / After -->
+  <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:17px;color:var(--text);margin-bottom:1rem;">Diagnóstico comparativo</h3>
+  <div class="ba-toggle">
+    <button class="ba-btn on" onclick="baToggle('before')">Antes del programa</button>
+    <button class="ba-btn" onclick="baToggle('after')">Después (3 meses)</button>
+  </div>
+  <div class="diff-wrap">
+    <div class="diff-col">
+      <p class="diff-lbl" id="col-a">Estado actual</p>
+      <div class="diff-item"><span class="diff-name">Fatiga reportada</span><span class="diff-val bad" id="dv1">78%</span></div>
+      <div class="diff-item"><span class="diff-name">Ausentismo / mes</span><span class="diff-val bad" id="dv2">4.2 días</span></div>
+      <div class="diff-item"><span class="diff-name">Errores en código</span><span class="diff-val bad" id="dv3">Alto</span></div>
+      <div class="diff-item"><span class="diff-name">Satisfacción laboral</span><span class="diff-val bad" id="dv4">5.1 / 10</span></div>
+      <div class="diff-item"><span class="diff-name">Rotación anual</span><span class="diff-val bad" id="dv5">24%</span></div>
+    </div>
+    <div class="arrow-mid" id="ba-arrow" style="display:none;">→</div>
+    <div class="diff-col" id="after-col" style="display:none;">
+      <p class="diff-lbl">Con el programa</p>
+      <div class="diff-item"><span class="diff-name">Fatiga reportada</span><span class="diff-val good">41%</span></div>
+      <div class="diff-item"><span class="diff-name">Ausentismo / mes</span><span class="diff-val good">1.8 días</span></div>
+      <div class="diff-item"><span class="diff-name">Errores en código</span><span class="diff-val good">Reducidos</span></div>
+      <div class="diff-item"><span class="diff-name">Satisfacción laboral</span><span class="diff-val good">7.9 / 10</span></div>
+      <div class="diff-item"><span class="diff-name">Rotación anual</span><span class="diff-val good">11%</span></div>
+    </div>
+  </div>
+
+  <!-- Fases -->
+  <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:17px;color:var(--text);margin:2.5rem 0 1.25rem;">Programa en 3 fases — 12 semanas</h3>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-dot" style="background:var(--purple-l);color:var(--purple-d);">1</div>
+        <div class="tl-line"></div>
+      </div>
+      <div class="tl-content">
+        <p class="tl-phase">Semanas 1–3</p>
+        <p class="tl-title">Diagnóstico y arranque</p>
+        <p class="tl-body">Encuesta inicial de fatiga, dolores y hábitos. Instalación de DevPause en todos los equipos. Charla de 30 min sobre SVI, LER y fatiga digital. Configuración individual de perfiles y horarios. Meta: 100% del equipo registrado y con primer check-in completado.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-dot" style="background:var(--green-l);color:#065F46;">2</div>
+        <div class="tl-line"></div>
+      </div>
+      <div class="tl-content">
+        <p class="tl-phase">Semanas 4–8</p>
+        <p class="tl-title">Hábito y rutina</p>
+        <p class="tl-body">Pausas guiadas "obligatorias" 2 veces al día (10am y 3pm). Reto de equipo semanal gamificado con ranking interno en Slack. Check-in semanal de 5 preguntas con el chatbot Byte. Ajuste de intensidad según datos recopilados. Meta: 80% de pausas completadas por semana de equipo.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-dot" style="background:var(--amber-l);color:#92400E;">3</div>
+      </div>
+      <div class="tl-content">
+        <p class="tl-phase">Semanas 9–12</p>
+        <p class="tl-title">Consolidación y medición</p>
+        <p class="tl-body">Pausas autónomas sin obligatoriedad — el hábito debe ser propio. Segunda encuesta de fatiga y comparativa con la línea base. Presentación de resultados al equipo directivo. Premio al equipo con mayor racha del trimestre. Decisión estratégica: continuar, ampliar o ajustar el programa.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rutina -->
+  <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:17px;color:var(--text);margin:2.5rem 0 1.25rem;">Rutina diaria recomendada</h3>
+  <div class="g2" style="margin-bottom:2rem;">
+    <div class="card"><span class="badge bp">Mañana — 10:00 am</span><h3 class="card-title">Pausa de activación (5 min)</h3><p class="card-body">Cuello + muñecas + respiración 4-4-4. Ideal después de la primera reunión del día o del primer bloque de código. Se notifica cuando el desarrollador lleva 60 min continuos activo.</p></div>
+    <div class="card"><span class="badge bt">Tarde — 3:00 pm</span><h3 class="card-title">Pausa de recuperación (7 min)</h3><p class="card-body">Espalda + ojos (regla 20-20-20) + estiramiento de hombros. Es la más importante del día: coincide con el pico de fatiga cognitiva de la tarde.</p></div>
+    <div class="card"><span class="badge ba">Visual — cada 20 min</span><h3 class="card-title">Micro-pausa de ojos</h3><p class="card-body">Recordatorio sutil de la regla 20-20-20. Solo 20 segundos. No requiere levantarse. La app lo silencia si hay videollamada activa en el calendario.</p></div>
+    <div class="card"><span class="badge bb">Fin de jornada</span><h3 class="card-title">Desconexión consciente (3 min)</h3><p class="card-body">Respiración de cierre + 1 pregunta del chatbot. El sistema registra el dato y alimenta el dashboard semanal. Ayuda a separar psicológicamente el trabajo del tiempo personal.</p></div>
+  </div>
+
+  <!-- Herramientas -->
+  <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:17px;color:var(--text);margin-bottom:1.25rem;">Stack de herramientas digitales</h3>
+  <div class="g2" style="margin-bottom:2rem;">
+    <div class="tool-card">
+      <div class="tool-ico" style="background:var(--purple-l);color:var(--purple-d);">DP</div>
+      <div><p class="tool-name">DevPause — app principal</p><p class="tool-desc">Pausas guiadas, temporizadores, chatbot Byte, historial personal y gamificación. Plugin para VS Code que detecta el contexto del IDE. iOS, Android y escritorio.</p></div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-ico" style="background:var(--blue-l);color:#1E40AF;">MS</div>
+      <div><p class="tool-name">Microsoft Viva Insights</p><p class="tool-desc">Integrado en Teams y Outlook. Programa pausas automáticas, silencia notificaciones y genera reportes de bienestar para el equipo directivo.</p></div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-ico" style="background:var(--green-l);color:#065F46;">GC</div>
+      <div><p class="tool-name">Google Calendar — wellbeing reminders</p><p class="tool-desc">Bloquea automáticamente franjas de pausas en el calendario del equipo. Sincroniza con DevPause para evitar interrupciones en reuniones activas.</p></div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-ico" style="background:var(--amber-l);color:#92400E;">SL</div>
+      <div><p class="tool-name">Slack — bot de equipo</p><p class="tool-desc">Bot que publica el ranking semanal, celebra rachas y envía el reto de pausa del día a los canales de cada squad vía webhook con DevPause.</p></div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-ico" style="background:var(--red-l);color:#991B1B;">DS</div>
+      <div><p class="tool-name">Dashboard de RR.HH.</p><p class="tool-desc">Panel web con métricas agregadas del equipo: tasa de adopción, pausas por semana, encuestas de fatiga y correlación con productividad. Solo datos anónimos.</p></div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-ico" style="background:var(--surface2);color:var(--text2);">AW</div>
+      <div><p class="tool-name">Apple Watch / wearable</p><p class="tool-desc">Sincronizado con DevPause para detectar frecuencia cardíaca elevada, alerta de sedentarismo y recordatorio de pararse cada hora. Datos opcionales y privados.</p></div>
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:17px;color:var(--text);margin-bottom:1.25rem;">Indicadores de seguimiento — semana 8</h3>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-v">83%</div><div class="kpi-l">Pausas completadas</div><div class="kpi-d kpi-up">+21% vs semana 1</div></div>
+    <div class="kpi"><div class="kpi-v">2.1</div><div class="kpi-l">Días ausentismo / mes</div><div class="kpi-d kpi-up">-48% vs línea base</div></div>
+    <div class="kpi"><div class="kpi-v">7.4</div><div class="kpi-l">Satisfacción laboral / 10</div><div class="kpi-d kpi-up">+43% vs inicial</div></div>
+    <div class="kpi"><div class="kpi-v">5 días</div><div class="kpi-l">Racha media del equipo</div><div class="kpi-d kpi-up">Nuevo récord</div></div>
+  </div>
+
+  <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:17px;color:var(--text);margin:2rem 0 1.25rem;">Mejora por zona del cuerpo</h3>
+  <div style="max-width:600px;">
+    <div class="prog-zone"><div class="pz-top"><span class="pz-name">Cuello — dolor reportado</span><span class="pz-val">-54%</span></div><div class="pz-bar"><div class="pz-fill" style="width:46%;"></div></div></div>
+    <div class="prog-zone"><div class="pz-top"><span class="pz-name">Muñecas — tensión reportada</span><span class="pz-val">-38%</span></div><div class="pz-bar"><div class="pz-fill" style="width:62%;"></div></div></div>
+    <div class="prog-zone"><div class="pz-top"><span class="pz-name">Espalda baja — molestia reportada</span><span class="pz-val">-41%</span></div><div class="pz-bar"><div class="pz-fill" style="width:59%;"></div></div></div>
+    <div class="prog-zone"><div class="pz-top"><span class="pz-name">Ojos — fatiga visual reportada</span><span class="pz-val">-61%</span></div><div class="pz-bar"><div class="pz-fill" style="width:39%;"></div></div></div>
+    <div class="prog-zone"><div class="pz-top"><span class="pz-name">Estrés digital — percepción subjetiva</span><span class="pz-val">-47%</span></div><div class="pz-bar"><div class="pz-fill" style="width:53%;"></div></div></div>
+  </div>
+
+  <div class="roi-grid">
+    <div class="roi-card"><div class="roi-v" style="color:var(--green);">$3.80</div><div class="roi-l">retorno estimado por cada $1 invertido en el programa</div></div>
+    <div class="roi-card"><div class="roi-v" style="color:var(--purple);">-57%</div><div class="roi-l">reducción de costos por rotación de personal</div></div>
+    <div class="roi-card"><div class="roi-v" style="color:var(--amber);">+19%</div><div class="roi-l">aumento en productividad medida por tareas cerradas</div></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+  SECCIÓN 7 — STARTUP
+══════════════════════════════════════════ -->
+<section class="section" id="startup">
+  <div class="section-eyebrow">07 — Emprendimiento</div>
+  <h2 class="section-title">DevPause como startup</h2>
+  <p class="section-lead">¿Cómo convertir las pausas activas en una solución tecnológica escalable? Aquí el pitch completo: producto, usuarios, modelo de negocio y hoja de ruta.</p>
+
+  <div class="startup-hero">
+    <div class="app-logo" style="width:72px;height:72px;font-size:22px;">DP</div>
+    <div style="flex:1;min-width:200px;">
+      <p class="app-name">DevPause — la startup</p>
+      <p class="app-tagline">SaaS B2B de bienestar laboral inteligente para equipos de tecnología</p>
+    </div>
+    <div><span class="chip">SaaS B2B</span> <span class="chip">IA aplicada</span> <span class="chip">HR Tech</span> <span class="chip">Wellness Tech</span> <span class="chip">LATAM</span></div>
+  </div>
+
+  <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:17px;color:var(--text);margin-bottom:1.25rem;">Business Model Canvas</h3>
+  <div class="canvas-grid">
+    <div class="canvas-card"><p class="canvas-card-title">Propuesta de valor</p><p>La única plataforma que convierte el bienestar físico del desarrollador en un indicador medible de productividad del equipo, con IA que entiende el contexto del IDE.</p></div>
+    <div class="canvas-card"><p class="canvas-card-title">Segmentos</p><ul><li>Empresas de software 50–500 devs</li><li>Startups con cultura de bienestar</li><li>Corporativos con equipos TI</li><li>Outsourcing de software</li></ul></div>
+    <div class="canvas-card"><p class="canvas-card-title">Canales</p><ul><li>Marketplace VS Code</li><li>Integración Slack/Teams</li><li>Ventas B2B directas</li><li>HR Tech conferences</li></ul></div>
+    <div class="canvas-card"><p class="canvas-card-title">Relación con cliente</p><ul><li>Onboarding guiado por IA</li><li>Customer success mensual</li><li>Comunidad de admins bienestar</li></ul></div>
+    <div class="canvas-card"><p class="canvas-card-title">Recursos clave</p><ul><li>Modelo IA de fatiga</li><li>Plugin para IDEs</li><li>Motor de gamificación</li><li>Dashboard RR.HH.</li></ul></div>
+    <div class="canvas-card"><p class="canvas-card-title">Actividades clave</p><ul><li>Entrenamiento del modelo IA</li><li>Desarrollo y mantenimiento</li><li>Expansión de integraciones</li></ul></div>
+    <div class="canvas-card"><p class="canvas-card-title">Socios clave</p><ul><li>ARL / aseguradoras</li><li>Microsoft (Viva)</li><li>Atlassian / Slack</li><li>Fisioterapeutas y médicos</li></ul></div>
+    <div class="canvas-card"><p class="canvas-card-title">Estructura de costos</p><ul><li>Infraestructura cloud</li><li>Equipo ingeniería (4-6)</li><li>Modelos de IA (API)</li><li>Ventas y marketing B2B</li></ul></div>
+    <div class="canvas-card"><p class="canvas-card-title">Fuentes de ingreso</p><ul><li>Suscripción mensual empresa</li><li>Tier por nº de desarrolladores</li><li>Reportes avanzados premium</li></ul></div>
+  </div>
+
+  <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:17px;color:var(--text);margin-bottom:1.25rem;">Modelo de precios SaaS</h3>
+  <div class="price-grid">
+    <div class="price-card">
+      <p class="price-plan">Starter</p>
+      <p class="price-val">$4</p>
+      <p class="price-per">/ dev / mes — hasta 25 devs</p>
+      <p class="price-desc">App + pausas guiadas básicas. Sin gamificación de equipo. Dashboard individual.</p>
+    </div>
+    <div class="price-card featured">
+      <p class="price-plan featured-lbl">Pro — más popular</p>
+      <p class="price-val" style="color:var(--purple);">$9</p>
+      <p class="price-per">/ dev / mes — hasta 200 devs</p>
+      <p class="price-desc">IA adaptativa + chatbot Byte + gamificación de equipo + dashboard de RR.HH. ROI de $3.80 por cada $1 invertido.</p>
+    </div>
+    <div class="price-card">
+      <p class="price-plan">Enterprise</p>
+      <p class="price-val">$18</p>
+      <p class="price-per">/ dev / mes — ilimitado</p>
+      <p class="price-desc">Integraciones custom + ARL + reportes de ROI para dirección + customer success dedicado.</p>
+    </div>
+  </div>
+
+  <div class="g3" style="margin-bottom:2rem;">
+    <div class="card" style="text-align:center;"><p style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--text);">100 devs</p><p class="card-body" style="font-size:13px;">cliente Pro → $900/mes → $10.800/año</p></div>
+    <div class="card" style="text-align:center;"><p style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--green);">$3.80</p><p class="card-body" style="font-size:13px;">ROI demostrable por cada $1 invertido en plan Pro</p></div>
+    <div class="card" style="text-align:center;"><p style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--purple);">$1.2M</p><p class="card-body" style="font-size:13px;">ARR objetivo al año 2 con 110 clientes Pro promedio</p></div>
+  </div>
+
+  <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:17px;color:var(--text);margin-bottom:1.25rem;">Valor agregado diferenciador</h3>
+  <div class="g2" style="margin-bottom:2rem;">
+    <div class="card"><span class="badge bp">Para el desarrollador</span><p class="card-body">No es una app de meditación genérica. Entiende el contexto del IDE, respeta el estado de flow y propone pausas en el momento exacto. El dev siente que la app trabaja para él, no contra él.</p></div>
+    <div class="card"><span class="badge bt">Para el equipo</span><p class="card-body">Convierte el bienestar individual en un deporte colectivo. Los retos, rankings y logros compartidos crean cultura de cuidado mutuo sin que RR.HH. tenga que empujarlo.</p></div>
+    <div class="card"><span class="badge ba">Para la empresa</span><p class="card-body">Por primera vez el responsable de bienestar puede entrar a una reunión y mostrar datos: fatiga -X%, ausentismo -Y%, ROI de $3.80 por dólar. Bienestar con lenguaje de negocio.</p></div>
+    <div class="card"><span class="badge bb">Para aseguradoras / ARL</span><p class="card-body">Canal de distribución premium: DevPause como herramienta de prevención de riesgos laborales incluida en las pólizas corporativas de salud ocupacional.</p></div>
+  </div>
+
+  <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:17px;color:var(--text);margin-bottom:1.25rem;">Hoja de ruta — 18 meses</h3>
+  <div class="roadmap">
+    <div class="rm-phase">
+      <p class="rm-lbl">Meses 1–4</p>
+      <p class="rm-name">MVP</p>
+      <p class="rm-item">App móvil + pausas guiadas</p>
+      <p class="rm-item">Plugin VS Code básico</p>
+      <p class="rm-item">Chatbot Byte v1</p>
+      <p class="rm-item">Dashboard individual</p>
+    </div>
+    <div class="rm-phase">
+      <p class="rm-lbl">Meses 5–9</p>
+      <p class="rm-name">Crecimiento</p>
+      <p class="rm-item">IA adaptativa por perfil</p>
+      <p class="rm-item">Gamificación de equipos</p>
+      <p class="rm-item">Integración Slack/Teams</p>
+      <p class="rm-item">Dashboard RR.HH.</p>
+    </div>
+    <div class="rm-phase">
+      <p class="rm-lbl">Meses 10–14</p>
+      <p class="rm-name">Escala</p>
+      <p class="rm-item">Plugin JetBrains / Xcode</p>
+      <p class="rm-item">API para integraciones custom</p>
+      <p class="rm-item">Módulo bienestar mental</p>
+      <p class="rm-item">Reportes ROI para dirección</p>
+    </div>
+    <div class="rm-phase">
+      <p class="rm-lbl">Meses 15–18</p>
+      <p class="rm-name">Expansión</p>
+      <p class="rm-item">Alianzas con ARL</p>
+      <p class="rm-item">Soporte wearables avanzado</p>
+      <p class="rm-item">Versión para diseñadores y QA</p>
+      <p class="rm-item">Expansión LATAM</p>
+    </div>
+  </div>
+
+  <!-- AI Flow -->
+  <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:17px;color:var(--text);margin:2rem 0 1.25rem;">¿Cómo usa la IA para promover pausas activas?</h3>
+  <div class="card">
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--purple-l);color:var(--purple-d);font-family:'Syne',sans-serif;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div>
+        <p class="card-body"><strong style="color:var(--text);">Detección de patrones:</strong> analiza velocidad de tipeo, frecuencia de errores, duración de sesiones y hora del día para estimar el nivel de fatiga en tiempo real, sin sensores externos.</p>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--green-l);color:#065F46;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div>
+        <p class="card-body"><strong style="color:var(--text);">Momento inteligente:</strong> detecta "pausas naturales" del código — fin de función, merge, espera de compilación — para sugerir la pausa en ese instante preciso.</p>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--amber-l);color:#92400E;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div>
+        <p class="card-body"><strong style="color:var(--text);">Personalización continua:</strong> con cada interacción aprende qué ejercicios acepta el usuario, en qué franjas cumple mejor y ajusta las sugerencias automáticamente.</p>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--blue-l);color:#1E40AF;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">4</div>
+        <p class="card-body"><strong style="color:var(--text);">Empatía por NLP:</strong> el chatbot Byte lee el tono del usuario. Si responde "no puedo, estoy en un bug crítico", da espacio; si dice "me duele la espalda", escala la urgencia.</p>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--red-l);color:#991B1B;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">5</div>
+        <p class="card-body"><strong style="color:var(--text);">Predicción preventiva:</strong> al cruzar datos históricos con la agenda del día, predice cuándo es más probable que el dev omita pausas y envía recordatorios anticipados, antes del agotamiento.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /page-wrap -->
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="page-wrap">
+    <p class="footer-brand">DevWellness</p>
+    <p class="footer-sub">Guía de bienestar digital para desarrolladores de software · 2026<br>Creado con fines educativos — pausas activas, app DevPause, programa empresarial y propuesta de startup.</p>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════
+   JAVASCRIPT
+══════════════════════════════════════ -->
+<script>
+/* ── NAV activo al scroll ── */
+const navLinks = document.querySelectorAll('.nav-links a');
+const sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) cur = s.id; });
+  navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+}, { passive: true });
+
+/* ── TABS interactivos ── */
+function iTab(id) {
+  ['guided','arcade','ranking'].forEach(t => {
+    document.getElementById('ip-' + t).classList.toggle('on', t === id);
+  });
+  document.querySelectorAll('.itab').forEach((b, i) => {
+    b.classList.toggle('on', ['guided','arcade','ranking'][i] === id);
+  });
+}
+
+/* ── BEFORE/AFTER ── */
+function baToggle(state) {
+  document.querySelectorAll('.ba-btn').forEach((b, i) => {
+    b.classList.toggle('on', (state === 'before' && i === 0) || (state === 'after' && i === 1));
+  });
+  const af = document.getElementById('after-col');
+  const ar = document.getElementById('ba-arrow');
+  const ca = document.getElementById('col-a');
+  if (state === 'after') { af.style.display = ''; ar.style.display = 'flex'; ca.textContent = 'Antes'; }
+  else { af.style.display = 'none'; ar.style.display = 'none'; ca.textContent = 'Estado actual'; }
+}
+
+/* ══════════════════════════════════════
+   PAUSA GUIADA
+══════════════════════════════════════ */
+const STEPS = [
+  { zone:'Cuello', zc:'sz-neck', name:'Rotación de cuello', desc:'Gira lentamente la cabeza de izquierda a derecha, como si dijeras "no". Mantén los hombros bajos y relajados. 5 rotaciones lentas en cada dirección.', secs:45, xp:40 },
+  { zone:'Muñecas', zc:'sz-wrist', name:'Círculos de muñeca', desc:'Extiende los brazos al frente. Rota ambas muñecas formando círculos amplios: 10 hacia adelante y 10 hacia atrás. Luego abre y cierra los puños 5 veces.', secs:40, xp:40 },
+  { zone:'Espalda', zc:'sz-back', name:'Giro torácico', desc:'Siéntate en el borde de la silla. Pon las manos en los hombros. Gira el torso hacia la derecha 3 seg, regresa al centro y repite hacia la izquierda. 5 veces cada lado.', secs:50, xp:50 },
+  { zone:'Ojos', zc:'sz-eyes', name:'Regla 20-20-20', desc:'Deja de mirar la pantalla. Enfoca un objeto a al menos 6 metros de distancia durante 20 segundos. Parpadea consciente y lentamente 10 veces para rehidratar la córnea.', secs:30, xp:30 },
+  { zone:'Respiración', zc:'sz-breath', name:'Respiración 4-4-4', desc:'Inhala por la nariz contando 4. Mantén el aire 4 segundos. Exhala por la boca contando 4. Repite 4 ciclos completos. Deja que los hombros caigan con cada exhalación.', secs:55, xp:50 },
+];
+let cur=0, running=false, tInt=null, tLeft=0, sXP=0;
+const maxXP = STEPS.reduce((a,s)=>a+s.xp,0);
+
+function renderStep() {
+  const s = STEPS[cur];
+  document.getElementById('s-label').textContent = `Ejercicio ${cur+1} de ${STEPS.length}`;
+  document.getElementById('s-bar').style.width = `${((cur+1)/STEPS.length)*100}%`;
+  document.getElementById('s-zone').textContent = s.zone;
+  document.getElementById('s-zone').className = 'step-zone ' + s.zc;
+  document.getElementById('s-name').textContent = s.name;
+  document.getElementById('s-desc').textContent = s.desc;
+  document.getElementById('ring-num').textContent = s.secs;
+  document.getElementById('ring').style.strokeDashoffset = '0';
+  document.getElementById('s-btn').textContent = 'Iniciar ejercicio';
+  document.getElementById('s-xp').textContent = `+${s.xp} XP`;
+  [0,1,2,3,4].forEach(i => {
+    const p = document.getElementById('pip'+i);
+    p.className = 'pip' + (i<cur?' done':i===cur?' cur':'');
+  });
+  running = false; clearInterval(tInt);
+}
+
+function handleStep() {
+  const s = STEPS[cur];
+  if (!running) {
+    running = true; tLeft = s.secs;
+    document.getElementById('s-btn').textContent = 'Completar';
+    const c = 264;
+    tInt = setInterval(() => {
+      tLeft--;
+      document.getElementById('ring-num').textContent = tLeft;
+      document.getElementById('ring').style.strokeDashoffset = String(c * (1 - tLeft/s.secs));
+      if (tLeft <= 0) { clearInterval(tInt); completeStep(); }
+    }, 1000);
+  } else { clearInterval(tInt); completeStep(); }
+}
+
+function completeStep() {
+  running = false;
+  sXP += STEPS[cur].xp;
+  const pct = Math.round((sXP/maxXP)*100);
+  document.getElementById('xp-fill').style.width = pct + '%';
+  document.getElementById('xp-tot').textContent = `${sXP} / ${maxXP}`;
+  document.getElementById('s-xp').textContent = `+${sXP} XP`;
+  document.getElementById('pip'+cur).className = 'pip done';
+  cur++;
+  if (cur >= STEPS.length) {
+    document.getElementById('s-card').style.display = 'none';
+    document.getElementById('finish-box').style.display = 'block';
+  } else { renderStep(); }
+}
+
+function skipStep() {
+  clearInterval(tInt); running = false;
+  document.getElementById('pip'+cur).className = 'pip';
+  cur++;
+  if (cur >= STEPS.length) { document.getElementById('s-card').style.display='none'; document.getElementById('finish-box').style.display='block'; }
+  else renderStep();
+}
+
+function resetGuided() {
+  cur=0; sXP=0; running=false; clearInterval(tInt);
+  document.getElementById('s-card').style.display = '';
+  document.getElementById('finish-box').style.display = 'none';
+  document.getElementById('xp-fill').style.width = '0%';
+  document.getElementById('xp-tot').textContent = `0 / ${maxXP}`;
+  renderStep();
+}
+
+/* ══════════════════════════════════════
+   ARCADE
+══════════════════════════════════════ */
+const CHAL = [
+  { id:'neck',  ico:'🔵', bg:'#EDE9FD', title:'Cuello al máximo', desc:'Completa la rotación cervical 45 seg sin parar', pts:50 },
+  { id:'wrist', ico:'🟡', bg:'#FEF3C7', title:'Muñecas de acero',  desc:'10 círculos completos + abre/cierra puños',       pts:50 },
+  { id:'back',  ico:'🟢', bg:'#D1FAE5', title:'Giro torácico x5',  desc:'5 rotaciones completas a cada lado',              pts:60 },
+  { id:'eyes',  ico:'🔷', bg:'#DBEAFE', title:'Ojos descansados',  desc:'Aplica la regla 20-20-20 dos veces seguidas',      pts:40 },
+  { id:'breath',ico:'🔴', bg:'#FEE2E2', title:'Respiración zen',   desc:'4 ciclos 4-4-4 sin interrupción',                  pts:60 },
+  { id:'all',   ico:'⭐', bg:'#FEF3C7', title:'Pausa perfecta',    desc:'Completa todos los retos anteriores',              pts:100, locked:true },
+];
+let arcPts=320, doneCnt=0, comboCnt=1;
+CHAL.forEach(c => { c.done = false; c.locked = c.locked || false; });
+
+function renderChal() {
+  document.getElementById('ch-list').innerHTML = CHAL.map(c => `
+    <div class="ch-card${c.done?' done':''}${c.locked?' locked':''}" onclick="${!c.done&&!c.locked?`completeC('${c.id}')`:''}" >
+      <div class="ch-ico" style="background:${c.bg};">${c.done?'✅':c.locked?'🔒':c.ico}</div>
+      <div style="flex:1;min-width:0;"><div class="ch-title">${c.title}</div><div class="ch-desc">${c.desc}</div></div>
+      <span class="ch-pts ${c.done?'earned':c.locked?'lckd':'avail'}">${c.done?'+'+c.pts+' ✓':c.locked?'Bloq.':'+'+c.pts+' XP'}</span>
+    </div>`).join('');
+}
+
+function completeC(id) {
+  const c = CHAL.find(x=>x.id===id);
+  if (!c||c.done||c.locked) return;
+  c.done = true; doneCnt++;
+  arcPts += c.pts * comboCnt;
+  comboCnt = Math.min(comboCnt+1, 3);
+  document.getElementById('arc-pts').textContent = arcPts;
+  document.getElementById('arc-cmb').textContent = 'x'+comboCnt;
+  document.getElementById('combo-cnt').textContent = Math.min(doneCnt,3)+' / 3';
+  if (doneCnt >= 3) {
+    const cb = document.getElementById('combo-cnt').parentElement;
+    cb.style.background = '#D1FAE5'; cb.style.borderColor = '#6EE7B7';
+    document.getElementById('combo-txt').textContent = '¡Combo x2 activo — puntos duplicados!';
+    document.getElementById('combo-txt').style.color = '#065F46';
+    document.getElementById('combo-cnt').style.color = '#059669';
+    document.getElementById('aw2').className = 'award unlocked';
+  }
+  if (doneCnt === 1) document.getElementById('aw1').className = 'award unlocked';
+  const mainDone = CHAL.filter(x=>x.id!=='all').every(x=>x.done);
+  if (mainDone) {
+    CHAL.find(x=>x.id==='all').locked = false;
+    document.getElementById('aw3').className = 'award unlocked';
+  }
+  renderChal();
+}
+
+/* ══════════════════════════════════════
+   RANKING
+══════════════════════════════════════ */
+const MEMBERS = [
+  { name:'Ana García',     ini:'AG', bg:'#EDE9FD', fg:'#3B2DB5', pts:580, streak:7, you:false },
+  { name:'Tú — Carlos R.', ini:'CR', bg:'#D1FAE5', fg:'#065F46', pts:320, streak:3, you:true  },
+  { name:'Luis Mora',      ini:'LM', bg:'#FEF3C7', fg:'#92400E', pts:290, streak:5, you:false },
+  { name:'Sofía Peña',     ini:'SP', bg:'#FEE2E2', fg:'#991B1B', pts:210, streak:2, you:false },
+  { name:'David Kim',      ini:'DK', bg:'#DBEAFE', fg:'#1E40AF', pts:180, streak:4, you:false },
+  { name:'Marta López',    ini:'ML', bg:'#EDE9FD', fg:'#3B2DB5', pts:260, streak:1, you:false },
+];
+const SORTED = [...MEMBERS].sort((a,b) => b.pts - a.pts);
+const posCls  = ['g','s','b','','',''];
+
+function renderRanking() {
+  document.getElementById('rk-list').innerHTML = SORTED.map((m,i) => `
+    <div class="rank-row-item${m.you?' you':''}">
+      <span class="rk-pos ${posCls[i]}">${i+1}</span>
+      <div class="rk-av" style="background:${m.bg};color:${m.fg};">${m.ini}</div>
+      <div style="flex:1;min-width:0;">
+        <div class="rk-name">${m.name}${m.you?'<span class="you-tag">tú</span>':''}</div>
+        <div class="rk-sub">${m.streak} días de racha</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="rk-pts-v">${m.pts} XP</div>
+        <div class="rk-pts-s">racha ${m.streak}</div>
+      </div>
+    </div>`).join('');
+}
+
+const WK_LABELS = ['L','M','X','J','V','S','D'];
+const WK_DATA   = [380,520,290,410,240,0,0];
+const WK_MAX    = Math.max(...WK_DATA, 1);
+
+function renderWeek() {
+  const maxH = 60;
+  document.getElementById('wk-chart').innerHTML = WK_LABELS.map((d,i) => `
+    <div class="wday">
+      <div class="wlbl">${d}</div>
+      <div class="wbar" style="height:${maxH}px;">
+        <div class="wbar-fill" style="height:${Math.round((WK_DATA[i]/WK_MAX)*maxH)}px;"></div>
+      </div>
+      <div class="wval">${WK_DATA[i]||'—'}</div>
+    </div>`).join('');
+}
+
+/* ── Init ── */
+renderStep();
+renderChal();
+renderRanking();
+renderWeek();
+</script>
+
+</body>
+</html>
